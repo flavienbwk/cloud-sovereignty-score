@@ -89,6 +89,50 @@ Each assessment generates a downloadable timestamped report with:
 - Personalized recommendations
 - Reference to framework version
 
+## Display Your SEAL Level
+
+After completing your assessment, showcase your Cloud Sovereignty compliance with these badges in your repository:
+
+### SEAL 5 - Maximum Sovereignty (90-100%)
+
+```markdown
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_5-28a745)](https://github.com/flavienbwk/cloud-sovereignty-score)
+```
+
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_5-28a745)](https://github.com/flavienbwk/cloud-sovereignty-score)
+
+### SEAL 4 - High Sovereignty (75-89%)
+
+```markdown
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_4-17a2b8)](https://github.com/flavienbwk/cloud-sovereignty-score)
+```
+
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_4-17a2b8)](https://github.com/flavienbwk/cloud-sovereignty-score)
+
+### SEAL 3 - Moderate Sovereignty (60-74%)
+
+```markdown
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_3-ffc107)](https://github.com/flavienbwk/cloud-sovereignty-score)
+```
+
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_3-ffc107)](https://github.com/flavienbwk/cloud-sovereignty-score)
+
+### SEAL 2 - Limited Sovereignty (40-59%)
+
+```markdown
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_2-fd7e14)](https://github.com/flavienbwk/cloud-sovereignty-score)
+```
+
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_2-fd7e14)](https://github.com/flavienbwk/cloud-sovereignty-score)
+
+### SEAL 1 - Minimal Sovereignty (0-39%)
+
+```markdown
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_1-dc3545)](https://github.com/flavienbwk/cloud-sovereignty-score)
+```
+
+[![EU Cloud Sovereignty](https://img.shields.io/badge/EU_Cloud_Sovereignty-SEAL_1-dc3545)](https://github.com/flavienbwk/cloud-sovereignty-score)
+
 ## Use Cases
 
 ### For Organizations
