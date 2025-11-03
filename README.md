@@ -222,12 +222,10 @@ This tool is based on the official **EU Cloud Sovereignty Framework v1.2.1** (Oc
 
 ## Roadmap
 
-### Planned Features
+### Possible Future Features
 
 - [ ] JSON/CSV export for reports
 - [ ] Multi-language support (FR, DE, ES, IT)
-- [ ] Integration with cloud provider APIs for automated data collection
-- [ ] Benchmark comparison against industry standards
 - [ ] PDF report generation with charts
 - [ ] API for programmatic access
 - [ ] Docker container version
