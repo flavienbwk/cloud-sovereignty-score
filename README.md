@@ -10,6 +10,8 @@ A comprehensive assessment tool for evaluating cloud services and infrastructure
 
 ### [🚀 Launch Web Assessment Tool](https://flavienbwk.github.io/cloud-sovereignty-score/)
 
+![](./example.png)
+
 </div>
 
 ## Overview
