@@ -1,6 +1,6 @@
 # EU Cloud Sovereignty Assessment Tool
 
-A comprehensive assessment tool for evaluating cloud services and infrastructure against the **European Commission's Cloud Sovereignty Framework (v1.2.1, October 2025)**.
+A comprehensive assessment tool for evaluating cloud services and infrastructure against the **European Commission's [Cloud Sovereignty Framework (v1.2.1, October 2025)](https://commission.europa.eu/document/09579818-64a6-4dd5-9577-446ab6219113_en)**.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![EU Framework](https://img.shields.io/badge/EU_Framework-v1.2.1-blue.svg)](https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en)
