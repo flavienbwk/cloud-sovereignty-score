@@ -6,6 +6,12 @@ A comprehensive assessment tool for evaluating cloud services and infrastructure
 [![EU Framework](https://img.shields.io/badge/EU_Framework-v1.2.1-blue.svg)](https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en)
 [![GitHub Pages](https://img.shields.io/badge/Web_App-Live-brightgreen.svg)](https://flavienbwk.github.io/cloud-sovereignty-score/)
 
+<div align="center">
+
+### [🚀 Launch Web Assessment Tool](https://flavienbwk.github.io/cloud-sovereignty-score/)
+
+</div>
+
 ## Overview
 
 This web-based tool helps organizations assess their cloud infrastructure's compliance with EU sovereignty requirements through an interactive questionnaire covering 8 key sovereignty objectives. It generates a comprehensive **SEAL (Sovereign European Assurance Level)** score and provides actionable recommendations for improvement.
