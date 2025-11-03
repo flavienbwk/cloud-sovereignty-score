@@ -8,11 +8,7 @@ A comprehensive assessment tool for evaluating cloud services and infrastructure
 
 ## Overview
 
-This tool helps organizations assess their cloud infrastructure's compliance with EU sovereignty requirements through an interactive questionnaire covering 8 key sovereignty objectives. It generates a comprehensive **SEAL (Sovereign European Assurance Level)** score and provides actionable recommendations for improvement.
-
-**Available in two versions:**
-- **Web Application** - Interactive browser-based tool (recommended for most users)
-- **Command-Line Tool** - Bash script for automation and offline use
+This web-based tool helps organizations assess their cloud infrastructure's compliance with EU sovereignty requirements through an interactive questionnaire covering 8 key sovereignty objectives. It generates a comprehensive **SEAL (Sovereign European Assurance Level)** score and provides actionable recommendations for improvement.
 
 ### What is Cloud Sovereignty?
 
@@ -21,7 +17,6 @@ Cloud sovereignty refers to the ability of organizations and governments to main
 ## Features
 
 - **Web-Based Interface** - Modern, responsive web application for easy assessment
-- **Interactive CLI Assessment** - User-friendly command-line interface with colored output (alternative)
 - **54 Comprehensive Questions** - Covering all 8 sovereignty objectives
 - **Weighted Scoring System** - Aligned with official EU framework weights (1000 points total)
 - **SEAL Level Classification** - 5-tier rating system (SEAL 1-5)
@@ -58,56 +53,13 @@ The tool assigns one of five Sovereign European Assurance Levels based on your t
 
 ## Quick Start
 
-### Web Application (Recommended)
-
 Access the online assessment tool:
 
 **[Launch Web Assessment Tool](https://flavienbwk.github.io/cloud-sovereignty-score/)**
 
 No installation required - works in any modern web browser!
 
-### Command-Line Tool
-
-#### Prerequisites
-
-- Bash 5.0 or higher
-- Linux, macOS, or WSL (Windows Subsystem for Linux)
-- Terminal with ANSI color support (for best experience)
-- **yq** - YAML processor (version 4.x or higher)
-
-#### Installing yq
-
-The script requires `yq` to parse the YAML configuration file.
-
-**Ubuntu/Debian:**
-
-```bash
-sudo apt install -y yq
-```
-
-**macOS:**
-
-```bash
-brew install yq
-```
-
-#### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/flavienbwk/cloud-sovereignty-score
-cd cloud-sovereignty-score
-
-# Make the script executable
-chmod +x cloud-sovereignty-assessment.sh
-
-# Run the assessment
-./cloud-sovereignty-assessment.sh
-```
-
-## Usage
-
-### Using the Web Application
+## How to Use
 
 1. Visit the [web assessment tool](https://flavienbwk.github.io/cloud-sovereignty-score/)
 2. Click "Begin Assessment"
@@ -115,86 +67,20 @@ chmod +x cloud-sovereignty-assessment.sh
 4. Review your SEAL rating and detailed score breakdown
 5. Download your assessment report
 
-### Using the Command-Line Tool
-
-Simply execute the script:
-
-```bash
-./cloud-sovereignty-assessment.sh
-```
-
-The assessment process:
-
-1. **Introduction** - Overview of the framework and assessment scope
-2. **8 Objective Sections** - Interactive questions for each sovereignty area
-3. **Score Calculation** - Automated weighted scoring
-4. **Results Display** - Visual breakdown with SEAL level
-5. **Recommendations** - Personalized improvement suggestions
-6. **Report Generation** - Timestamped file saved automatically
-
 ### Assessment Duration
 
 - **Estimated time**: 10-15 minutes
 - **Total questions**: 54
 - **Question types**: Multiple choice and Yes/No/Partial
 
-### Understanding Question Types
-
-**Yes/No/Partial Questions:**
-- `Y` (Yes) = Full points (10 base points × multiplier)
-- `P` (Partial/In Progress) = Half points (5 base points × multiplier)
-- `N` (No) = Zero points
-
-**Multiple Choice Questions:**
-- Scored based on the level of sovereignty compliance
-- Best option = Full points
-- Progressively lower scores for less compliant options
-
-## Sample Output
-
-```
-╔═══════════════════════════════════════════════════════════════╗
-║  EU CLOUD SOVEREIGNTY FRAMEWORK ASSESSMENT TOOL          ║
-╟───────────────────────────────────────────────────────────────╢
-║  Version: 1.0                                                ║
-║  Based on: EU Cloud Sovereignty Framework v1.2.1            ║
-║  Date: October 2025                                          ║
-╚═══════════════════════════════════════════════════════════════╝
-
-...
-
-┌─────────────────────────────────────────────────────────────┐
-│  CLOUD SOVEREIGNTY SCORE BREAKDOWN                       │
-├─────────────────────────────────────────────────────────────┤
-│  SOV-1 Strategic Sovereignty (15%):           120/150 │
-│  SOV-2 Legal & Jurisdictional (10%):           85/100 │
-│  SOV-3 Data & AI Sovereignty (10%):            90/100 │
-│  SOV-4 Operational Sovereignty (15%):         130/150 │
-│  SOV-5 Supply Chain Sovereignty (20%):        140/200 │
-│  SOV-6 Technology Sovereignty (15%):          110/150 │
-│  SOV-7 Security & Compliance (10%):            80/100 │
-│  SOV-8 Environmental Sustainability (5%):      35/50  │
-├─────────────────────────────────────────────────────────────┤
-│  TOTAL SCORE:                              790/1000 │
-│  PERCENTAGE:                                    79% │
-├─────────────────────────────────────────────────────────────┤
-│  SEAL 4 - High Sovereignty                              │
-│  Strong sovereignty with minimal dependencies           │
-└─────────────────────────────────────────────────────────────┘
-```
-
 ## Report Files
 
-Each assessment generates a timestamped report:
+Each assessment generates a downloadable timestamped report with:
 
-```
-cloud-sovereignty-assessment-20250202-143025.txt
-```
-
-**Report Contents:**
-- Assessment date and project name
+- Assessment date and timestamp
 - Full score breakdown by objective
-- Total score and percentage
+- Total score and SEAL level
+- Personalized recommendations
 - Reference to framework version
 
 ## Use Cases
@@ -222,62 +108,24 @@ cloud-sovereignty-assessment-20250202-143025.txt
 
 ## Customization
 
-### Configuration Structure
+The tool uses a data-driven approach with all questions defined in `questions.yml` and converted to JavaScript in `questions.js`. To customize:
 
-The tool now uses a YAML-based configuration system for easier management of questions. All questions are defined in `questions.yml`, making it simple to add, modify, or remove assessment criteria without editing the shell script.
+### Adding or Modifying Questions
 
-### Adding Questions
-
-To add a new question to an objective, edit `questions.yml`:
+Edit `questions.yml` to add new questions or modify existing ones:
 
 ```yaml
-- id: "q1.7"  # Unique question ID
+- id: "q1.7"
   text: "Your question text here?"
   type: "yes_no"  # or "multiple_choice"
-  multiplier: 1  # Point multiplier (for yes_no questions)
+  multiplier: 1
 ```
 
-For multiple choice questions:
+After editing, convert to JavaScript format in `questions.js`.
 
-```yaml
-- id: "q1.8"
-  text: "Your multiple choice question?"
-  type: "multiple_choice"
-  options:
-    - label: "Best option"
-      score: 30
-    - label: "Good option"
-      score: 20
-    - label: "Acceptable option"
-      score: 10
-    - label: "Poor option"
-      score: 0
-```
+### Adjusting SEAL Thresholds
 
-### Adjusting Weights
-
-To modify objective weights, edit the `weight` and `max_score` fields in `questions.yml`:
-
-```yaml
-objectives:
-  - id: "strategic"
-    name: "Strategic Sovereignty"
-    code: "SOV-1"
-    weight: 15  # Percentage weight
-    max_score: 150  # Total points for this objective
-```
-
-### Modifying SEAL Thresholds
-
-Edit the `calculate_final_score()` function in `cloud-sovereignty-assessment.sh:219` to adjust SEAL level thresholds.
-
-### Using Custom Configuration Files
-
-You can use a different questions file by setting the `QUESTIONS_FILE` environment variable:
-
-```bash
-QUESTIONS_FILE="custom-questions.yml" ./cloud-sovereignty-assessment.sh
-```
+Modify the `getSEALLevel()` function in `app.js` to adjust threshold percentages.
 
 ## Best Practices
 
