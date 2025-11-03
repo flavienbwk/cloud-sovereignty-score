@@ -1,2 +1,408 @@
-# cloud-sovereignty-score
-Questions helping you determine your Cloud Sovereignty Score based on EU's Cloud Sovereignty Framework
+# EU Cloud Sovereignty Assessment Tool
+
+A comprehensive bash-based assessment tool for evaluating cloud services and infrastructure against the **European Commission's Cloud Sovereignty Framework (v1.2.1, October 2025)**.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![EU Framework](https://img.shields.io/badge/EU_Framework-v1.2.1-blue.svg)](https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en)
+[![Bash](https://img.shields.io/badge/bash-5.0+-green.svg)](https://www.gnu.org/software/bash/)
+
+## Overview
+
+This tool helps organizations assess their cloud infrastructure's compliance with EU sovereignty requirements through an interactive questionnaire covering 8 key sovereignty objectives. It generates a comprehensive **SEAL (Sovereign European Assurance Level)** score and provides actionable recommendations for improvement.
+
+### What is Cloud Sovereignty?
+
+Cloud sovereignty refers to the ability of organizations and governments to maintain control over their data, infrastructure, and digital operations within their legal and jurisdictional boundaries. The EU Cloud Sovereignty Framework establishes criteria for assessing and ensuring that cloud services align with European values, laws, and strategic interests.
+
+## Features
+
+- **Interactive CLI Assessment** - User-friendly command-line interface with colored output
+- **54 Comprehensive Questions** - Covering all 8 sovereignty objectives
+- **Weighted Scoring System** - Aligned with official EU framework weights (1000 points total)
+- **SEAL Level Classification** - 5-tier rating system (SEAL 1-5)
+- **Personalized Recommendations** - Targeted advice for improving sovereignty posture
+- **Automated Reporting** - Timestamped assessment reports in text format
+- **Framework Compliant** - Based on EU Cloud Sovereignty Framework v1.2.1
+
+## The 8 Sovereignty Objectives
+
+| Objective                                    | Weight | Points | Description                                          |
+| -------------------------------------------- | ------ | ------ | ---------------------------------------------------- |
+| **SOV-1** Strategic Sovereignty              | 15%    | 150    | Corporate control, governance, and EU independence   |
+| **SOV-2** Legal & Jurisdictional Sovereignty | 10%    | 100    | Legal protection, GDPR compliance, EU jurisdiction   |
+| **SOV-3** Data & AI Sovereignty              | 10%    | 100    | Data location, processing control, encryption        |
+| **SOV-4** Operational Sovereignty            | 15%    | 150    | Personnel control, access management, operations     |
+| **SOV-5** Supply Chain Sovereignty           | 20%    | 200    | Hardware sourcing, vendor transparency, dependencies |
+| **SOV-6** Technology Sovereignty             | 15%    | 150    | Open standards, interoperability, vendor lock-in     |
+| **SOV-7** Security & Compliance Sovereignty  | 10%    | 100    | Certifications, cybersecurity, incident response     |
+| **SOV-8** Environmental Sustainability       | 5%     | 50     | Renewable energy, carbon neutrality, Green Deal      |
+
+> **Note**: Supply Chain Sovereignty (SOV-5) carries the highest weight at 20%, reflecting its critical importance in the framework.
+
+## SEAL Levels
+
+The tool assigns one of five Sovereign European Assurance Levels based on your total score:
+
+| Level      | Score Range            | Description                                                    |
+| ---------- | ---------------------- | -------------------------------------------------------------- |
+| **SEAL 5** | 90-100% (900-1000 pts) | Maximum Sovereignty - Highest level of compliance              |
+| **SEAL 4** | 75-89% (750-899 pts)   | High Sovereignty - Strong compliance with minimal dependencies |
+| **SEAL 3** | 60-74% (600-749 pts)   | Moderate Sovereignty - Adequate for many use cases             |
+| **SEAL 2** | 40-59% (400-599 pts)   | Limited Sovereignty - Basic measures in place                  |
+| **SEAL 1** | 0-39% (0-399 pts)      | Minimal Sovereignty - Significant gaps exist                   |
+
+## Installation
+
+### Prerequisites
+
+- Bash 5.0 or higher
+- Linux, macOS, or WSL (Windows Subsystem for Linux)
+- Terminal with ANSI color support (for best experience)
+- **yq** - YAML processor (version 4.x or higher)
+
+### Installing yq
+
+The script requires `yq` to parse the YAML configuration file.
+
+**Ubuntu/Debian:**
+
+```bash
+sudo apt install -y yq
+```
+
+**macOS:**
+
+```bash
+brew install yq
+```
+
+### Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/flavienbwk/cloud-sovereignty-score
+cd cloud-sovereignty-score
+
+# Make the script executable
+chmod +x cloud-sovereignty-assessment.sh
+
+# Run the assessment
+./cloud-sovereignty-assessment.sh
+```
+
+## Usage
+
+### Running an Assessment
+
+Simply execute the script:
+
+```bash
+./cloud-sovereignty-assessment.sh
+```
+
+The assessment process:
+
+1. **Introduction** - Overview of the framework and assessment scope
+2. **8 Objective Sections** - Interactive questions for each sovereignty area
+3. **Score Calculation** - Automated weighted scoring
+4. **Results Display** - Visual breakdown with SEAL level
+5. **Recommendations** - Personalized improvement suggestions
+6. **Report Generation** - Timestamped file saved automatically
+
+### Assessment Duration
+
+- **Estimated time**: 10-15 minutes
+- **Total questions**: 54
+- **Question types**: Multiple choice and Yes/No/Partial
+
+### Understanding Question Types
+
+**Yes/No/Partial Questions:**
+- `Y` (Yes) = Full points (10 base points × multiplier)
+- `P` (Partial/In Progress) = Half points (5 base points × multiplier)
+- `N` (No) = Zero points
+
+**Multiple Choice Questions:**
+- Scored based on the level of sovereignty compliance
+- Best option = Full points
+- Progressively lower scores for less compliant options
+
+## Sample Output
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║  EU CLOUD SOVEREIGNTY FRAMEWORK ASSESSMENT TOOL          ║
+╟───────────────────────────────────────────────────────────────╢
+║  Version: 1.0                                                ║
+║  Based on: EU Cloud Sovereignty Framework v1.2.1            ║
+║  Date: October 2025                                          ║
+╚═══════════════════════════════════════════════════════════════╝
+
+...
+
+┌─────────────────────────────────────────────────────────────┐
+│  CLOUD SOVEREIGNTY SCORE BREAKDOWN                       │
+├─────────────────────────────────────────────────────────────┤
+│  SOV-1 Strategic Sovereignty (15%):           120/150 │
+│  SOV-2 Legal & Jurisdictional (10%):           85/100 │
+│  SOV-3 Data & AI Sovereignty (10%):            90/100 │
+│  SOV-4 Operational Sovereignty (15%):         130/150 │
+│  SOV-5 Supply Chain Sovereignty (20%):        140/200 │
+│  SOV-6 Technology Sovereignty (15%):          110/150 │
+│  SOV-7 Security & Compliance (10%):            80/100 │
+│  SOV-8 Environmental Sustainability (5%):      35/50  │
+├─────────────────────────────────────────────────────────────┤
+│  TOTAL SCORE:                              790/1000 │
+│  PERCENTAGE:                                    79% │
+├─────────────────────────────────────────────────────────────┤
+│  SEAL 4 - High Sovereignty                              │
+│  Strong sovereignty with minimal dependencies           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Report Files
+
+Each assessment generates a timestamped report:
+
+```
+cloud-sovereignty-assessment-20250202-143025.txt
+```
+
+**Report Contents:**
+- Assessment date and project name
+- Full score breakdown by objective
+- Total score and percentage
+- Reference to framework version
+
+## Use Cases
+
+### For Organizations
+
+- **Cloud Migration Planning** - Assess sovereignty implications before migrating to cloud providers
+- **Vendor Selection** - Evaluate potential cloud vendors against EU sovereignty standards
+- **Compliance Audits** - Document sovereignty compliance for regulators and stakeholders
+- **Risk Assessment** - Identify sovereignty gaps and vulnerabilities
+- **Procurement Requirements** - Generate requirements for RFPs and vendor contracts
+
+### For Cloud Service Providers
+
+- **Self-Assessment** - Evaluate your service's sovereignty posture
+- **Competitive Positioning** - Demonstrate sovereignty compliance to EU customers
+- **Service Improvement** - Identify areas for enhancing sovereignty features
+- **Marketing Materials** - Generate objective sovereignty scores for customer communications
+
+### For Public Sector
+
+- **Policy Compliance** - Ensure adherence to EU digital sovereignty policies
+- **Procurement Decisions** - Make informed decisions for government cloud services
+- **Strategic Planning** - Align IT infrastructure with national sovereignty goals
+
+## Customization
+
+### Configuration Structure
+
+The tool now uses a YAML-based configuration system for easier management of questions. All questions are defined in `questions.yml`, making it simple to add, modify, or remove assessment criteria without editing the shell script.
+
+### Adding Questions
+
+To add a new question to an objective, edit `questions.yml`:
+
+```yaml
+- id: "q1.7"  # Unique question ID
+  text: "Your question text here?"
+  type: "yes_no"  # or "multiple_choice"
+  multiplier: 1  # Point multiplier (for yes_no questions)
+```
+
+For multiple choice questions:
+
+```yaml
+- id: "q1.8"
+  text: "Your multiple choice question?"
+  type: "multiple_choice"
+  options:
+    - label: "Best option"
+      score: 30
+    - label: "Good option"
+      score: 20
+    - label: "Acceptable option"
+      score: 10
+    - label: "Poor option"
+      score: 0
+```
+
+### Adjusting Weights
+
+To modify objective weights, edit the `weight` and `max_score` fields in `questions.yml`:
+
+```yaml
+objectives:
+  - id: "strategic"
+    name: "Strategic Sovereignty"
+    code: "SOV-1"
+    weight: 15  # Percentage weight
+    max_score: 150  # Total points for this objective
+```
+
+### Modifying SEAL Thresholds
+
+Edit the `calculate_final_score()` function in `cloud-sovereignty-assessment.sh:219` to adjust SEAL level thresholds.
+
+### Using Custom Configuration Files
+
+You can use a different questions file by setting the `QUESTIONS_FILE` environment variable:
+
+```bash
+QUESTIONS_FILE="custom-questions.yml" ./cloud-sovereignty-assessment.sh
+```
+
+## Best Practices
+
+### Before Assessment
+
+- **Gather Documentation** - Collect information about infrastructure, vendors, and policies
+- **Involve Key Stakeholders** - Include legal, IT, security, and procurement teams
+- **Review Contracts** - Have cloud service agreements and SLAs available
+- **Understand Architecture** - Document data flows, processing locations, and dependencies
+
+### During Assessment
+
+- **Be Honest** - Accurate responses yield actionable results
+- **Use Partial** - Select "Partial" if implementation is in progress
+- **Document Uncertainty** - Note questions where information is incomplete
+- **Take Your Time** - Don't rush through complex questions
+
+### After Assessment
+
+- **Review Recommendations** - Prioritize improvements based on weight and gaps
+- **Create Action Plan** - Develop roadmap for improving sovereignty posture
+- **Reassess Regularly** - Run assessment quarterly or after major changes
+- **Track Progress** - Compare scores over time to measure improvement
+
+## Framework Reference
+
+This tool is based on the official **EU Cloud Sovereignty Framework v1.2.1** (October 2025) published by the European Commission.
+
+### Official Documentation
+
+- [Cloud Sovereignty Framework (PDF)](https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en)
+- [Interoperable Europe Portal](https://interoperable-europe.ec.europa.eu/collection/eprocurement/news/cloud-sovereignty-framework)
+- [EU Digital Strategy](https://digital-strategy.ec.europa.eu/)
+
+### Related EU Regulations
+
+- **GDPR** - General Data Protection Regulation
+- **NIS2 Directive** - Network and Information Security
+- **Cyber Resilience Act** - Cybersecurity requirements for digital products
+- **Data Governance Act** - Framework for data sharing and reuse
+- **EU Green Deal** - Environmental sustainability objectives
+
+## Roadmap
+
+### Planned Features
+
+- [ ] JSON/CSV export for reports
+- [ ] Web-based interface version
+- [ ] Multi-language support (FR, DE, ES, IT)
+- [ ] Integration with cloud provider APIs for automated data collection
+- [ ] Benchmark comparison against industry standards
+- [ ] PDF report generation with charts
+- [ ] API for programmatic access
+- [ ] Docker container version
+
+### Version History
+
+- **v2.0.0** (Current) - YAML-based configuration system for easy question management
+- **v1.0.0** - Initial release with all 8 sovereignty objectives
+
+## Contributing
+
+Contributions are welcome! Please read our contributing guidelines before submitting PRs.
+
+### How to Contribute
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-assessment-criteria`)
+3. Commit your changes (`git commit -m 'Add new sovereignty criteria'`)
+4. Push to the branch (`git push origin feature/new-assessment-criteria`)
+5. Open a Pull Request
+
+### Areas for Contribution
+
+- Additional questions for existing objectives
+- Translations to EU languages
+- Output format improvements
+- Integration with monitoring tools
+- Documentation enhancements
+
+## Security Considerations
+
+### Data Privacy
+
+- **No Data Transmission** - All assessment data stays local
+- **No Internet Required** - Tool works completely offline
+- **No Logging** - Responses are not logged or transmitted
+- **File Permissions** - Report files are created with user-only read permissions
+
+### Secure Usage
+
+- Review generated reports before sharing with external parties
+- Redact sensitive information from reports if needed
+- Store reports in secure, encrypted locations
+- Regularly delete old assessment reports
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Disclaimer
+
+This tool is provided for informational and self-assessment purposes only. It does not constitute:
+
+- Legal advice or compliance certification
+- Official EU endorsement or certification
+- Guarantee of regulatory compliance
+- Substitute for professional legal or technical consultation
+
+Organizations should consult with legal and technical experts for official compliance verification.
+
+## Support
+
+### Getting Help
+
+- **Issues**: Report bugs or request features via [GitHub Issues](https://github.com/flavienbwk/cloud-sovereignty-score/issues)
+- **Discussions**: Join community discussions in [GitHub Discussions](https://github.com/flavienbwk/cloud-sovereignty-score/discussions)
+
+## Acknowledgments
+
+- European Commission for the Cloud Sovereignty Framework
+- Contributors to EU digital sovereignty initiatives
+- Open source community for tools and libraries
+
+For questions, suggestions, or collaboration opportunities, please open an issue or reach out to the maintainers.
+
+---
+
+## Quick Reference Card
+
+```txt
+╔══════════════════════════════════════════════════════════╗
+║            SOVEREIGNTY SCORE QUICK REFERENCE             ║
+╠══════════════════════════════════════════════════════════╣
+║ Total Points:  1000                                      ║
+║ Questions:     54                                        ║
+║ Duration:      10-15 minutes                             ║
+╟──────────────────────────────────────────────────────────╢
+║ TOP PRIORITIES (by weight):                              ║
+║ 1. Supply Chain (20%) - Hardware & vendor transparency   ║
+║ 2. Strategic (15%) - Corporate control & governance      ║
+║ 3. Operational (15%) - Personnel & access control        ║
+║ 4. Technology (15%) - Open standards & interoperability  ║
+╟──────────────────────────────────────────────────────────╢
+║ TARGET SEAL LEVELS:                                      ║
+║ • Public Sector:  SEAL 4-5 (750+ points)                 ║
+║ • Critical Infrastructure: SEAL 4-5 (750+ points)        ║
+║ • Financial Services: SEAL 3-4 (600+ points)             ║
+║ • General Business: SEAL 2-3 (400+ points)               ║
+╚══════════════════════════════════════════════════════════╝
+```
