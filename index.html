@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EU Cloud Sovereignty Assessment Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇪🇺</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="logo">
+                <span class="flag">🇪🇺</span>
+                <h1>EU Cloud Sovereignty Framework</h1>
+            </div>
+            <p class="subtitle">Assessment Tool v2.0</p>
+            <p class="framework-version">Based on EU Cloud Sovereignty Framework v1.2.1 (October 2025)</p>
+        </header>
+
+        <!-- Welcome Screen -->
+        <section id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <h2>Welcome to the Cloud Sovereignty Assessment</h2>
+                <p class="intro-text">
+                    This interactive tool helps organizations assess their cloud infrastructure's compliance
+                    with EU sovereignty requirements through a comprehensive questionnaire covering
+                    <strong>8 key sovereignty objectives</strong>.
+                </p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">📋</div>
+                        <h3>54 Questions</h3>
+                        <p>Comprehensive coverage of all sovereignty areas</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">⏱️</div>
+                        <h3>10-15 Minutes</h3>
+                        <p>Estimated completion time</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">🎯</div>
+                        <h3>SEAL Rating</h3>
+                        <p>5-tier Sovereign European Assurance Level</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">📊</div>
+                        <h3>1000 Points</h3>
+                        <p>Weighted scoring across 8 objectives</p>
+                    </div>
+                </div>
+
+                <div class="objectives-overview">
+                    <h3>The 8 Sovereignty Objectives</h3>
+                    <div class="objectives-list">
+                        <div class="objective-item">
+                            <span class="obj-code">SOV-1</span>
+                            <span class="obj-name">Strategic Sovereignty</span>
+                            <span class="obj-weight">15%</span>
+                        </div>
+                        <div class="objective-item">
+                            <span class="obj-code">SOV-2</span>
+                            <span class="obj-name">Legal & Jurisdictional Sovereignty</span>
+                            <span class="obj-weight">10%</span>
+                        </div>
+                        <div class="objective-item">
+                            <span class="obj-code">SOV-3</span>
+                            <span class="obj-name">Data & AI Sovereignty</span>
+                            <span class="obj-weight">10%</span>
+                        </div>
+                        <div class="objective-item">
+                            <span class="obj-code">SOV-4</span>
+                            <span class="obj-name">Operational Sovereignty</span>
+                            <span class="obj-weight">15%</span>
+                        </div>
+                        <div class="objective-item highlight">
+                            <span class="obj-code">SOV-5</span>
+                            <span class="obj-name">Supply Chain Sovereignty</span>
+                            <span class="obj-weight">20%</span>
+                        </div>
+                        <div class="objective-item">
+                            <span class="obj-code">SOV-6</span>
+                            <span class="obj-name">Technology Sovereignty</span>
+                            <span class="obj-weight">15%</span>
+                        </div>
+                        <div class="objective-item">
+                            <span class="obj-code">SOV-7</span>
+                            <span class="obj-name">Security & Compliance Sovereignty</span>
+                            <span class="obj-weight">10%</span>
+                        </div>
+                        <div class="objective-item">
+                            <span class="obj-code">SOV-8</span>
+                            <span class="obj-name">Environmental Sustainability</span>
+                            <span class="obj-weight">5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large" onclick="startAssessment()">
+                    Begin Assessment
+                </button>
+            </div>
+        </section>
+
+        <!-- Assessment Screen -->
+        <section id="assessment-screen" class="screen">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Question 1 of 54</div>
+            </div>
+
+            <div class="objective-header" id="objective-header">
+                <span class="objective-code" id="current-objective-code"></span>
+                <span class="objective-name" id="current-objective-name"></span>
+                <span class="objective-weight" id="current-objective-weight"></span>
+            </div>
+
+            <div class="question-container" id="question-container">
+                <div class="question-number" id="question-number"></div>
+                <div class="question-text" id="question-text"></div>
+                <div class="question-options" id="question-options"></div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="btn btn-secondary" id="prev-btn" onclick="previousQuestion()" disabled>
+                    Previous
+                </button>
+                <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" disabled>
+                    Next
+                </button>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="screen">
+            <div class="results-header">
+                <h2>Assessment Results</h2>
+                <div class="seal-badge" id="seal-badge"></div>
+            </div>
+
+            <div class="score-summary">
+                <div class="total-score">
+                    <div class="score-label">Total Score</div>
+                    <div class="score-value" id="total-score">0</div>
+                    <div class="score-max">/ 1000</div>
+                </div>
+                <div class="percentage-score">
+                    <div class="percentage-value" id="percentage-score">0%</div>
+                </div>
+            </div>
+
+            <div class="objectives-breakdown" id="objectives-breakdown"></div>
+
+            <div class="recommendations" id="recommendations"></div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="downloadReport()">
+                    Download Report
+                </button>
+                <button class="btn btn-primary" onclick="restartAssessment()">
+                    Start New Assessment
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                <strong>Disclaimer:</strong> This tool is for informational and self-assessment purposes only.
+                It does not constitute legal advice or official EU certification.
+            </p>
+            <p>
+                <a href="https://github.com/flavienbwk/cloud-sovereignty-score" target="_blank">View on GitHub</a> |
+                <a href="https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en" target="_blank">EU Framework Documentation</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

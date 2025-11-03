@@ -1,14 +1,18 @@
 # EU Cloud Sovereignty Assessment Tool
 
-A comprehensive bash-based assessment tool for evaluating cloud services and infrastructure against the **European Commission's Cloud Sovereignty Framework (v1.2.1, October 2025)**.
+A comprehensive assessment tool for evaluating cloud services and infrastructure against the **European Commission's Cloud Sovereignty Framework (v1.2.1, October 2025)**.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![EU Framework](https://img.shields.io/badge/EU_Framework-v1.2.1-blue.svg)](https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en)
-[![Bash](https://img.shields.io/badge/bash-5.0+-green.svg)](https://www.gnu.org/software/bash/)
+[![GitHub Pages](https://img.shields.io/badge/Web_App-Live-brightgreen.svg)](https://flavienbwk.github.io/cloud-sovereignty-score/)
 
 ## Overview
 
 This tool helps organizations assess their cloud infrastructure's compliance with EU sovereignty requirements through an interactive questionnaire covering 8 key sovereignty objectives. It generates a comprehensive **SEAL (Sovereign European Assurance Level)** score and provides actionable recommendations for improvement.
+
+**Available in two versions:**
+- **Web Application** - Interactive browser-based tool (recommended for most users)
+- **Command-Line Tool** - Bash script for automation and offline use
 
 ### What is Cloud Sovereignty?
 
@@ -16,7 +20,8 @@ Cloud sovereignty refers to the ability of organizations and governments to main
 
 ## Features
 
-- **Interactive CLI Assessment** - User-friendly command-line interface with colored output
+- **Web-Based Interface** - Modern, responsive web application for easy assessment
+- **Interactive CLI Assessment** - User-friendly command-line interface with colored output (alternative)
 - **54 Comprehensive Questions** - Covering all 8 sovereignty objectives
 - **Weighted Scoring System** - Aligned with official EU framework weights (1000 points total)
 - **SEAL Level Classification** - 5-tier rating system (SEAL 1-5)
@@ -51,16 +56,26 @@ The tool assigns one of five Sovereign European Assurance Levels based on your t
 | **SEAL 2** | 40-59% (400-599 pts)   | Limited Sovereignty - Basic measures in place                  |
 | **SEAL 1** | 0-39% (0-399 pts)      | Minimal Sovereignty - Significant gaps exist                   |
 
-## Installation
+## Quick Start
 
-### Prerequisites
+### Web Application (Recommended)
+
+Access the online assessment tool:
+
+**[Launch Web Assessment Tool](https://flavienbwk.github.io/cloud-sovereignty-score/)**
+
+No installation required - works in any modern web browser!
+
+### Command-Line Tool
+
+#### Prerequisites
 
 - Bash 5.0 or higher
 - Linux, macOS, or WSL (Windows Subsystem for Linux)
 - Terminal with ANSI color support (for best experience)
 - **yq** - YAML processor (version 4.x or higher)
 
-### Installing yq
+#### Installing yq
 
 The script requires `yq` to parse the YAML configuration file.
 
@@ -76,7 +91,7 @@ sudo apt install -y yq
 brew install yq
 ```
 
-### Quick Start
+#### Installation
 
 ```bash
 # Clone the repository
@@ -92,7 +107,15 @@ chmod +x cloud-sovereignty-assessment.sh
 
 ## Usage
 
-### Running an Assessment
+### Using the Web Application
+
+1. Visit the [web assessment tool](https://flavienbwk.github.io/cloud-sovereignty-score/)
+2. Click "Begin Assessment"
+3. Answer all 54 questions across 8 sovereignty objectives
+4. Review your SEAL rating and detailed score breakdown
+5. Download your assessment report
+
+### Using the Command-Line Tool
 
 Simply execute the script:
 
@@ -302,17 +325,19 @@ This tool is based on the official **EU Cloud Sovereignty Framework v1.2.1** (Oc
 ### Planned Features
 
 - [ ] JSON/CSV export for reports
-- [ ] Web-based interface version
 - [ ] Multi-language support (FR, DE, ES, IT)
 - [ ] Integration with cloud provider APIs for automated data collection
 - [ ] Benchmark comparison against industry standards
 - [ ] PDF report generation with charts
 - [ ] API for programmatic access
 - [ ] Docker container version
+- [ ] Save and resume assessments
+- [ ] Comparison of multiple assessments over time
 
 ### Version History
 
-- **v2.0.0** (Current) - YAML-based configuration system for easy question management
+- **v2.1.0** (Current) - Web-based interface with GitHub Pages deployment
+- **v2.0.0** - YAML-based configuration system for easy question management
 - **v1.0.0** - Initial release with all 8 sovereignty objectives
 
 ## Contributing
