@@ -22,43 +22,6 @@ This web-based tool helps organizations assess their cloud infrastructure's comp
 
 Cloud sovereignty refers to the ability of organizations and governments to maintain control over their data, infrastructure, and digital operations within their legal and jurisdictional boundaries. The EU Cloud Sovereignty Framework establishes criteria for assessing and ensuring that cloud services align with European values, laws, and strategic interests.
 
-## Features
-
-- **Web-Based Interface** - Modern, responsive web application for easy assessment
-- **54 Comprehensive Questions** - Covering all 8 sovereignty objectives
-- **Weighted Scoring System** - Aligned with official EU framework weights (1000 points total)
-- **SEAL Level Classification** - 5-tier rating system (SEAL 1-5)
-- **Personalized Recommendations** - Targeted advice for improving sovereignty posture
-- **Automated Reporting** - Timestamped assessment reports in text format
-- **Framework Compliant** - Based on EU Cloud Sovereignty Framework v1.2.1
-
-## The 8 Sovereignty Objectives
-
-| Objective                                    | Weight | Points | Description                                          |
-| -------------------------------------------- | ------ | ------ | ---------------------------------------------------- |
-| **SOV-1** Strategic Sovereignty              | 15%    | 150    | Corporate control, governance, and EU independence   |
-| **SOV-2** Legal & Jurisdictional Sovereignty | 10%    | 100    | Legal protection, GDPR compliance, EU jurisdiction   |
-| **SOV-3** Data & AI Sovereignty              | 10%    | 100    | Data location, processing control, encryption        |
-| **SOV-4** Operational Sovereignty            | 15%    | 150    | Personnel control, access management, operations     |
-| **SOV-5** Supply Chain Sovereignty           | 20%    | 200    | Hardware sourcing, vendor transparency, dependencies |
-| **SOV-6** Technology Sovereignty             | 15%    | 150    | Open standards, interoperability, vendor lock-in     |
-| **SOV-7** Security & Compliance Sovereignty  | 10%    | 100    | Certifications, cybersecurity, incident response     |
-| **SOV-8** Environmental Sustainability       | 5%     | 50     | Renewable energy, carbon neutrality, Green Deal      |
-
-> **Note**: Supply Chain Sovereignty (SOV-5) carries the highest weight at 20%, reflecting its critical importance in the framework.
-
-## SEAL Levels
-
-The tool assigns one of five Sovereign European Assurance Levels based on your total score:
-
-| Level      | Score Range            | Description                                                    |
-| ---------- | ---------------------- | -------------------------------------------------------------- |
-| **SEAL 5** | 90-100% (900-1000 pts) | Maximum Sovereignty - Highest level of compliance              |
-| **SEAL 4** | 75-89% (750-899 pts)   | High Sovereignty - Strong compliance with minimal dependencies |
-| **SEAL 3** | 60-74% (600-749 pts)   | Moderate Sovereignty - Adequate for many use cases             |
-| **SEAL 2** | 40-59% (400-599 pts)   | Limited Sovereignty - Basic measures in place                  |
-| **SEAL 1** | 0-39% (0-399 pts)      | Minimal Sovereignty - Significant gaps exist                   |
-
 ## Quick Start
 
 Access the online assessment tool:
@@ -157,6 +120,43 @@ After completing your assessment, showcase your Cloud Sovereignty compliance wit
 - **Policy Compliance** - Ensure adherence to EU digital sovereignty policies
 - **Procurement Decisions** - Make informed decisions for government cloud services
 - **Strategic Planning** - Align IT infrastructure with national sovereignty goals
+
+## Features
+
+- **Web-Based Interface** - Modern, responsive web application for easy assessment
+- **54 Comprehensive Questions** - Covering all 8 sovereignty objectives
+- **Weighted Scoring System** - Aligned with official EU framework weights (1000 points total)
+- **SEAL Level Classification** - 5-tier rating system (SEAL 1-5)
+- **Personalized Recommendations** - Targeted advice for improving sovereignty posture
+- **Automated Reporting** - Timestamped assessment reports in text format
+- **Framework Compliant** - Based on EU Cloud Sovereignty Framework v1.2.1
+
+## The 8 Sovereignty Objectives
+
+| Objective                                    | Weight | Points | Description                                          |
+| -------------------------------------------- | ------ | ------ | ---------------------------------------------------- |
+| **SOV-1** Strategic Sovereignty              | 15%    | 150    | Corporate control, governance, and EU independence   |
+| **SOV-2** Legal & Jurisdictional Sovereignty | 10%    | 100    | Legal protection, GDPR compliance, EU jurisdiction   |
+| **SOV-3** Data & AI Sovereignty              | 10%    | 100    | Data location, processing control, encryption        |
+| **SOV-4** Operational Sovereignty            | 15%    | 150    | Personnel control, access management, operations     |
+| **SOV-5** Supply Chain Sovereignty           | 20%    | 200    | Hardware sourcing, vendor transparency, dependencies |
+| **SOV-6** Technology Sovereignty             | 15%    | 150    | Open standards, interoperability, vendor lock-in     |
+| **SOV-7** Security & Compliance Sovereignty  | 10%    | 100    | Certifications, cybersecurity, incident response     |
+| **SOV-8** Environmental Sustainability       | 5%     | 50     | Renewable energy, carbon neutrality, Green Deal      |
+
+> **Note**: Supply Chain Sovereignty (SOV-5) carries the highest weight at 20%, reflecting its critical importance in the framework.
+
+## SEAL Levels
+
+The tool assigns one of five Sovereign European Assurance Levels based on your total score:
+
+| Level      | Score Range            | Description                                                    |
+| ---------- | ---------------------- | -------------------------------------------------------------- |
+| **SEAL 5** | 90-100% (900-1000 pts) | Maximum Sovereignty - Highest level of compliance              |
+| **SEAL 4** | 75-89% (750-899 pts)   | High Sovereignty - Strong compliance with minimal dependencies |
+| **SEAL 3** | 60-74% (600-749 pts)   | Moderate Sovereignty - Adequate for many use cases             |
+| **SEAL 2** | 40-59% (400-599 pts)   | Limited Sovereignty - Basic measures in place                  |
+| **SEAL 1** | 0-39% (0-399 pts)      | Minimal Sovereignty - Significant gaps exist                   |
 
 ## Customization
 
