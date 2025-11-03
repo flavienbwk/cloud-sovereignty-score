@@ -108,20 +108,20 @@ Each assessment generates a downloadable timestamped report with:
 
 ## Customization
 
-The tool uses a data-driven approach with all questions defined in `questions.yml` and converted to JavaScript in `questions.js`. To customize:
+The tool uses a data-driven approach with all questions defined in `questions.js`. To customize:
 
 ### Adding or Modifying Questions
 
-Edit `questions.yml` to add new questions or modify existing ones:
+Edit `questions.js` to add new questions or modify existing ones. Each question follows this structure:
 
-```yaml
-- id: "q1.7"
-  text: "Your question text here?"
-  type: "yes_no"  # or "multiple_choice"
-  multiplier: 1
+```javascript
+{
+    id: "q1.7",
+    text: "Your question text here?",
+    type: "yes_no",  // or "multiple_choice"
+    multiplier: 1
+}
 ```
-
-After editing, convert to JavaScript format in `questions.js`.
 
 ### Adjusting SEAL Thresholds
 
