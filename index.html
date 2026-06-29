@@ -15,8 +15,8 @@
                 <span class="flag">🇪🇺</span>
                 <h1>EU Cloud Sovereignty Framework</h1>
             </div>
-            <p class="subtitle">Assessment Tool v2.1.0</p>
-            <p class="framework-version">Based on EU Cloud Sovereignty Framework v1.2.1 (October 2025)</p>
+            <p class="subtitle">Assessment Tool v3.0.0</p>
+            <p class="framework-version">Aligned with the EU Cloud Sovereignty Framework (v1.2.1) and the official Implementation Guidance &amp; Sovereignty Assessment Calculator (1 June 2026)</p>
         </header>
 
         <!-- Welcome Screen -->
@@ -36,8 +36,8 @@
                 <div class="info-grid">
                     <div class="info-card">
                         <div class="info-icon">📋</div>
-                        <h3>54 Questions</h3>
-                        <p>Comprehensive coverage of all sovereignty areas</p>
+                        <h3>48 Criteria</h3>
+                        <p>The official assessment criteria across all 8 objectives</p>
                     </div>
                     <div class="info-card">
                         <div class="info-icon">⏱️</div>
@@ -46,18 +46,26 @@
                     </div>
                     <div class="info-card">
                         <div class="info-icon">🎯</div>
-                        <h3>SEAL Rating</h3>
-                        <p>5-tier Sovereign European Assurance Level</p>
+                        <h3>Score + SEAL</h3>
+                        <p>A weighted Sovereignty Score and a SEAL level (0–4)</p>
                     </div>
+                </div>
+
+                <div class="method-note">
+                    <strong>How it scores (official methodology):</strong> the
+                    <em>Sovereignty Score</em> is the weighted average of the 8 objective scores,
+                    while the <em>SEAL level</em> is the <strong>lowest</strong> SEAL achieved on
+                    any single criterion (a weakest-link measure). A high score does not guarantee
+                    a high SEAL.
                 </div>
 
                 <div class="objectives-overview">
                     <h3>The 8 Sovereignty Objectives</h3>
                     <div class="objectives-list">
-                        <div class="objective-item">
+                        <div class="objective-item highlight">
                             <span class="obj-code">SOV-1</span>
                             <span class="obj-name">Strategic Sovereignty</span>
-                            <span class="obj-weight">15%</span>
+                            <span class="obj-weight">20%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-2</span>
@@ -74,10 +82,10 @@
                             <span class="obj-name">Operational Sovereignty</span>
                             <span class="obj-weight">15%</span>
                         </div>
-                        <div class="objective-item highlight">
+                        <div class="objective-item">
                             <span class="obj-code">SOV-5</span>
                             <span class="obj-name">Supply Chain Sovereignty</span>
-                            <span class="obj-weight">20%</span>
+                            <span class="obj-weight">10%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-6</span>
@@ -87,7 +95,7 @@
                         <div class="objective-item">
                             <span class="obj-code">SOV-7</span>
                             <span class="obj-name">Security & Compliance Sovereignty</span>
-                            <span class="obj-weight">10%</span>
+                            <span class="obj-weight">15%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-8</span>
@@ -105,7 +113,7 @@
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
-                <div class="progress-text" id="progress-text">Question 1 of 54</div>
+                <div class="progress-text" id="progress-text">Question 1 of 48</div>
             </div>
 
             <div class="objective-header" id="objective-header">
@@ -134,17 +142,17 @@
         <section id="results-screen" class="screen">
             <div class="results-header">
                 <h2>Assessment Results</h2>
-                <div class="seal-badge" id="seal-badge"></div>
             </div>
 
-            <div class="score-summary">
-                <div class="total-score">
-                    <div class="score-label">Total Score</div>
-                    <div class="score-value" id="total-score">0</div>
-                    <div class="score-max">/ 1000</div>
+            <div class="results-summary">
+                <div class="result-card sov-score-card">
+                    <div class="result-card-label">Sovereignty Score</div>
+                    <div class="percentage-value" id="sov-score-value">0%</div>
+                    <div class="result-card-detail" id="sov-score-detail"></div>
                 </div>
-                <div class="percentage-score">
-                    <div class="percentage-value" id="percentage-score">0%</div>
+                <div class="result-card seal-card">
+                    <div class="result-card-label">SEAL — weakest link across all criteria</div>
+                    <div class="seal-badge" id="seal-badge"></div>
                 </div>
             </div>
 
@@ -170,7 +178,8 @@
             </p>
             <p>
                 <a href="https://github.com/flavienbwk/cloud-sovereignty-score" target="_blank">View on GitHub</a> |
-                <a href="https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en" target="_blank">EU Framework Documentation</a>
+                <a href="https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en" target="_blank">EU Framework</a> |
+                <a href="https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en" target="_blank">Implementation Guidance (June 2026)</a>
             </p>
         </footer>
     </div>
