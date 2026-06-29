@@ -1,11 +1,17 @@
 // EU Cloud Sovereignty Assessment Tool - Main Application
-// Version: 2.0 Web Edition
+// Version: 3.0 - aligned with the official Implementation Guidance &
+// Sovereignty Assessment Calculator (European Commission, 1 June 2026).
+//
+// Two independent outputs, exactly as in the official calculator:
+//   1. Sovereignty Score = weighted average of the 8 objective scores, /1000.
+//   2. SEAL level         = the MINIMUM (weakest-link) SEAL across every answered
+//                           criterion, on the official 0-4 scale.
 
 // Application State
 let currentObjectiveIndex = 0;
 let currentQuestionIndex = 0;
-let answers = {};
-let objectiveScores = {};
+let answers = {};            // globalIndex -> selected answer index
+let objectiveResults = {};
 
 // Flatten questions for easier navigation
 let flatQuestions = [];
@@ -13,8 +19,6 @@ let flatQuestions = [];
 // Initialize the application
 function initializeApp() {
     flatQuestions = [];
-
-    // Flatten all questions with their objective context
     assessmentData.objectives.forEach((objective, objIndex) => {
         objective.questions.forEach((question, qIndex) => {
             flatQuestions.push({
@@ -34,7 +38,7 @@ function startAssessment() {
     currentObjectiveIndex = 0;
     currentQuestionIndex = 0;
     answers = {};
-    objectiveScores = {};
+    objectiveResults = {};
 
     showScreen('assessment-screen');
     displayQuestion();
@@ -54,56 +58,58 @@ function displayQuestion() {
     const current = flatQuestions[getCurrentGlobalIndex()];
     const { objective, question, globalIndex } = current;
 
-    // Update progress
     const progress = ((globalIndex + 1) / flatQuestions.length) * 100;
     document.getElementById('progress-fill').style.width = `${progress}%`;
     document.getElementById('progress-text').textContent = `Question ${globalIndex + 1} of ${flatQuestions.length}`;
 
-    // Update objective header
     document.getElementById('current-objective-code').textContent = objective.code;
     document.getElementById('current-objective-name').textContent = objective.name;
-    document.getElementById('current-objective-weight').textContent = `${objective.weight}%`;
+    document.getElementById('current-objective-weight').textContent = `${Math.round(objective.weight * 100)}%`;
 
-    // Update question
-    document.getElementById('question-number').textContent = question.id;
+    document.getElementById('question-number').textContent = `${objective.code} · Criterion ${question.number}`;
     document.getElementById('question-text').textContent = question.text;
 
-    // Render options
-    renderQuestionOptions(question, globalIndex);
+    // Contextual help (collapsed by default on every question)
+    const helpEl = document.getElementById('question-help');
+    const helpToggle = document.getElementById('help-toggle');
+    helpEl.hidden = true;
+    helpToggle.classList.remove('active');
+    if (question.help) {
+        helpEl.textContent = question.help;
+        helpToggle.style.display = '';
+    } else {
+        helpEl.textContent = '';
+        helpToggle.style.display = 'none';
+    }
 
-    // Update navigation buttons
+    renderQuestionOptions(question, globalIndex);
     updateNavigationButtons();
 }
 
-// Render question options based on type
+// Toggle the contextual help panel for the current question
+function toggleHelp() {
+    const helpEl = document.getElementById('question-help');
+    const helpToggle = document.getElementById('help-toggle');
+    helpEl.hidden = !helpEl.hidden;
+    helpToggle.classList.toggle('active', !helpEl.hidden);
+}
+
+// Render the ordinal answer options for a question
 function renderQuestionOptions(question, globalIndex) {
     const optionsContainer = document.getElementById('question-options');
     optionsContainer.innerHTML = '';
 
-    if (question.type === 'yes_no') {
-        const options = [
-            { label: 'Yes', value: 'yes' },
-            { label: 'Partial/In Progress', value: 'partial' },
-            { label: 'No', value: 'no' }
-        ];
-
-        options.forEach(option => {
-            const button = createOptionButton(option.label, option.value, globalIndex);
-            optionsContainer.appendChild(button);
-        });
-    } else if (question.type === 'multiple_choice') {
-        question.options.forEach((option, index) => {
-            const button = createOptionButton(option.label, index, globalIndex);
-            optionsContainer.appendChild(button);
-        });
-    }
+    question.answers.forEach((answer, index) => {
+        const button = createOptionButton(answer.label, index, globalIndex);
+        optionsContainer.appendChild(button);
+    });
 }
 
 // Create an option button
 function createOptionButton(label, value, globalIndex) {
     const button = document.createElement('button');
     button.className = 'option-btn';
-    button.onclick = () => selectOption(globalIndex, value);
+    button.onclick = (e) => selectOption(globalIndex, value, e);
 
     const radio = document.createElement('div');
     radio.className = 'option-radio';
@@ -114,7 +120,6 @@ function createOptionButton(label, value, globalIndex) {
     button.appendChild(radio);
     button.appendChild(labelSpan);
 
-    // Check if this option is already selected
     if (answers[globalIndex] === value) {
         button.classList.add('selected');
     }
@@ -123,15 +128,13 @@ function createOptionButton(label, value, globalIndex) {
 }
 
 // Select an option
-function selectOption(globalIndex, value) {
+function selectOption(globalIndex, value, e) {
     answers[globalIndex] = value;
 
-    // Update UI
     const buttons = document.querySelectorAll('.option-btn');
     buttons.forEach(btn => btn.classList.remove('selected'));
-    event.currentTarget.classList.add('selected');
+    (e || window.event).currentTarget.classList.add('selected');
 
-    // Enable next button
     document.getElementById('next-btn').disabled = false;
 }
 
@@ -150,14 +153,11 @@ function nextQuestion() {
     const globalIndex = getCurrentGlobalIndex();
 
     if (globalIndex < flatQuestions.length - 1) {
-        // Move to next question
-        const nextGlobalIndex = globalIndex + 1;
-        const next = flatQuestions[nextGlobalIndex];
+        const next = flatQuestions[globalIndex + 1];
         currentObjectiveIndex = next.objectiveIndex;
         currentQuestionIndex = next.questionIndex;
         displayQuestion();
     } else {
-        // Assessment complete
         calculateResults();
         showScreen('results-screen');
     }
@@ -168,8 +168,7 @@ function previousQuestion() {
     const globalIndex = getCurrentGlobalIndex();
 
     if (globalIndex > 0) {
-        const prevGlobalIndex = globalIndex - 1;
-        const prev = flatQuestions[prevGlobalIndex];
+        const prev = flatQuestions[globalIndex - 1];
         currentObjectiveIndex = prev.objectiveIndex;
         currentQuestionIndex = prev.questionIndex;
         displayQuestion();
@@ -180,59 +179,80 @@ function previousQuestion() {
 function updateNavigationButtons() {
     const globalIndex = getCurrentGlobalIndex();
 
-    // Previous button
     document.getElementById('prev-btn').disabled = globalIndex === 0;
+    document.getElementById('next-btn').disabled = answers[globalIndex] === undefined;
 
-    // Next button - enabled if question is answered
-    const isAnswered = answers[globalIndex] !== undefined;
-    document.getElementById('next-btn').disabled = !isAnswered;
-
-    // Update next button text
     const nextBtn = document.getElementById('next-btn');
-    if (globalIndex === flatQuestions.length - 1) {
-        nextBtn.textContent = 'View Results';
-    } else {
-        nextBtn.textContent = 'Next';
-    }
+    nextBtn.textContent = (globalIndex === flatQuestions.length - 1) ? 'View Results' : 'Next';
 }
 
-// Calculate results
-function calculateResults() {
-    objectiveScores = {};
-    let totalScore = 0;
-    const maxScore = 1000;
+// Look up a SEAL level descriptor
+function getSealDescriptor(level) {
+    return assessmentData.sealLevels.find(s => s.level === level) || assessmentData.sealLevels[0];
+}
 
-    // Calculate score for each objective
+// Calculate results following the official calculator methodology
+function calculateResults() {
+    objectiveResults = {};
+    const divisor = assessmentData.framework.scoreDivisor || 1000;
+
+    let weightedScore = 0;      // Σ (weight × objectiveScore)
+    let overallSeal = null;     // weakest-link minimum across all criteria
+
     assessmentData.objectives.forEach((objective, objIndex) => {
         let objectiveScore = 0;
+        let objectiveMax = 0;
+        let objectiveSeal = null;          // min SEAL within this objective
+        const limitingCriteria = [];       // criteria selected at the lowest SEAL
 
         objective.questions.forEach((question, qIndex) => {
             const globalIndex = getGlobalIndexForQuestion(objIndex, qIndex);
-            const answer = answers[globalIndex];
+            const answerIndex = answers[globalIndex];
 
-            if (answer !== undefined) {
-                if (question.type === 'yes_no') {
-                    const baseScore = answer === 'yes' ? 10 : (answer === 'partial' ? 5 : 0);
-                    objectiveScore += baseScore * question.multiplier;
-                } else if (question.type === 'multiple_choice') {
-                    objectiveScore += question.options[answer].score;
-                }
+            // Per-question maximum value (top answer on the ordinal ladder).
+            objectiveMax += Math.max(...question.answers.map(a => a.value));
+
+            if (answerIndex !== undefined) {
+                const answer = question.answers[answerIndex];
+                objectiveScore += answer.value;
+
+                if (overallSeal === null || answer.seal < overallSeal) overallSeal = answer.seal;
+                if (objectiveSeal === null || answer.seal < objectiveSeal) objectiveSeal = answer.seal;
             }
         });
 
-        objectiveScores[objective.id] = {
-            score: objectiveScore,
-            maxScore: objective.max_score,
-            name: objective.name,
+        // Record which criteria sit at this objective's minimum SEAL (the binding constraints).
+        objective.questions.forEach((question, qIndex) => {
+            const globalIndex = getGlobalIndexForQuestion(objIndex, qIndex);
+            const answerIndex = answers[globalIndex];
+            if (answerIndex !== undefined && question.answers[answerIndex].seal === objectiveSeal) {
+                limitingCriteria.push({
+                    number: question.number,
+                    text: question.text,
+                    selected: question.answers[answerIndex].label,
+                    seal: objectiveSeal
+                });
+            }
+        });
+
+        objectiveResults[objective.id] = {
             code: objective.code,
-            weight: objective.weight
+            name: objective.name,
+            weight: objective.weight,
+            score: objectiveScore,
+            maxScore: objectiveMax,
+            percentage: objectiveMax ? Math.round((objectiveScore / objectiveMax) * 100) : 0,
+            seal: objectiveSeal,
+            limitingCriteria
         };
 
-        totalScore += objectiveScore;
+        weightedScore += objective.weight * objectiveScore;
     });
 
-    // Display results
-    displayResults(totalScore, maxScore);
+    // Sovereignty Score: weighted average of objective scores, normalised by the divisor.
+    const sovScoreFraction = Math.min(weightedScore / divisor, 1);
+
+    displayResults(sovScoreFraction, weightedScore / divisor, overallSeal ?? 0);
 }
 
 // Get global index for a specific objective/question combination
@@ -246,128 +266,115 @@ function getGlobalIndexForQuestion(objIndex, qIndex) {
 }
 
 // Display results
-function displayResults(totalScore, maxScore) {
-    const percentage = Math.round((totalScore / maxScore) * 100);
+function displayResults(sovScoreFraction, rawWeighted, overallSeal) {
+    const percentage = Math.round(sovScoreFraction * 100);
+    const seal = getSealDescriptor(overallSeal);
 
-    // Determine SEAL level
-    const sealLevel = getSEALLevel(percentage);
+    // Sovereignty Score
+    document.getElementById('sov-score-value').textContent = `${percentage}%`;
+    document.getElementById('sov-score-detail').textContent =
+        `Weighted sovereignty score · ${Math.round(rawWeighted * 1000)} / 1000`;
 
-    // Update score display
-    document.getElementById('total-score').textContent = totalScore;
-    document.getElementById('percentage-score').textContent = `${percentage}%`;
-
-    // Update SEAL badge
+    // SEAL badge (weakest link)
     const sealBadge = document.getElementById('seal-badge');
-    sealBadge.className = `seal-badge seal-${sealLevel.level}`;
+    sealBadge.className = `seal-badge seal-${seal.level}`;
     sealBadge.innerHTML = `
-        <div>${sealLevel.name}</div>
-        <div style="font-size: 16px; font-weight: 400; margin-top: 5px;">${sealLevel.description}</div>
+        <div class="seal-code">${seal.code}</div>
+        <div class="seal-name">${seal.name}</div>
+        <div class="seal-desc">${seal.description}</div>
     `;
 
-    // Display objectives breakdown
     displayObjectivesBreakdown();
-
-    // Display recommendations
-    displayRecommendations();
-}
-
-// Get SEAL level based on percentage
-function getSEALLevel(percentage) {
-    if (percentage >= 90) {
-        return {
-            level: 5,
-            name: 'SEAL 5 - Maximum Sovereignty',
-            description: 'Highest level of cloud sovereignty compliance'
-        };
-    } else if (percentage >= 75) {
-        return {
-            level: 4,
-            name: 'SEAL 4 - High Sovereignty',
-            description: 'Strong sovereignty with minimal dependencies'
-        };
-    } else if (percentage >= 60) {
-        return {
-            level: 3,
-            name: 'SEAL 3 - Moderate Sovereignty',
-            description: 'Adequate sovereignty for many use cases'
-        };
-    } else if (percentage >= 40) {
-        return {
-            level: 2,
-            name: 'SEAL 2 - Limited Sovereignty',
-            description: 'Basic sovereignty measures in place'
-        };
-    } else {
-        return {
-            level: 1,
-            name: 'SEAL 1 - Minimal Sovereignty',
-            description: 'Significant sovereignty gaps'
-        };
-    }
+    displayRecommendations(overallSeal);
 }
 
 // Display objectives breakdown
 function displayObjectivesBreakdown() {
     const container = document.getElementById('objectives-breakdown');
-    container.innerHTML = '<h3>Score Breakdown by Objective</h3>';
+    container.innerHTML = '<h3>Breakdown by Objective</h3>';
 
-    Object.values(objectiveScores).forEach(obj => {
-        const percentage = Math.round((obj.score / obj.maxScore) * 100);
-
+    Object.values(objectiveResults).forEach(obj => {
+        const seal = getSealDescriptor(obj.seal);
         const item = document.createElement('div');
         item.className = 'breakdown-item';
         item.innerHTML = `
             <div class="breakdown-label">
-                <strong>${obj.code}</strong> ${obj.name} (${obj.weight}%)
+                <strong>${obj.code}</strong> ${obj.name}
+                <span class="breakdown-weight">weight ${Math.round(obj.weight * 100)}%</span>
             </div>
-            <div class="breakdown-score">${obj.score} / ${obj.maxScore}</div>
+            <div class="breakdown-right">
+                <span class="breakdown-seal seal-pill seal-${obj.seal}">${seal.code}</span>
+                <span class="breakdown-score">${obj.percentage}%</span>
+            </div>
             <div class="breakdown-bar">
-                <div class="breakdown-bar-fill" style="width: ${percentage}%"></div>
+                <div class="breakdown-bar-fill" style="width: ${obj.percentage}%"></div>
             </div>
         `;
-
         container.appendChild(item);
     });
 }
 
-// Display recommendations
-function displayRecommendations() {
+// Display recommendations — focus on the weakest-link criteria that cap the SEAL
+function displayRecommendations(overallSeal) {
     const container = document.getElementById('recommendations');
-    container.innerHTML = '<h3>Recommendations for Improvement</h3>';
+    container.innerHTML = '<h3>Priorities for Improvement</h3>';
 
-    const recommendations = [];
+    const maxLevel = Math.max(...assessmentData.sealLevels.map(s => s.level));
+    const sealName = getSealDescriptor(overallSeal).code;
 
-    Object.values(objectiveScores).forEach(obj => {
-        const percentage = (obj.score / obj.maxScore) * 100;
-        if (percentage < 75) {
-            recommendations.push({
-                code: obj.code,
-                name: obj.name,
-                score: obj.score,
-                maxScore: obj.maxScore,
-                percentage: Math.round(percentage)
-            });
-        }
-    });
-
-    if (recommendations.length === 0) {
-        container.innerHTML += '<div class="recommendation-item">Excellent! All objectives are above 75% threshold.</div>';
+    if (overallSeal >= maxLevel) {
+        const top = getSealDescriptor(maxLevel);
+        const p = document.createElement('p');
+        p.className = 'rec-intro';
+        p.innerHTML = `Outstanding — every criterion already reaches <strong>${top.code} (${top.name})</strong>, ` +
+            `the highest SEAL. The only remaining work is lifting any objective below 100% to raise the Sovereignty Score.`;
+        container.appendChild(p);
     } else {
-        recommendations.sort((a, b) => a.percentage - b.percentage);
+        const intro = document.createElement('p');
+        intro.className = 'rec-intro';
+        intro.innerHTML = `Your overall SEAL is <strong>${sealName}</strong>, set by the lowest-scoring criteria below. ` +
+            `Because SEAL is a weakest-link measure, raising it requires improving <em>every</em> criterion currently at ${sealName}.`;
+        container.appendChild(intro);
 
-        recommendations.forEach(rec => {
-            const item = document.createElement('div');
-            item.className = 'recommendation-item';
-            item.textContent = `${rec.code} ${rec.name}: Score is below 75% threshold (${rec.score}/${rec.maxScore} = ${rec.percentage}%)`;
-            container.appendChild(item);
+        // Criteria across all objectives that sit at the overall (binding) SEAL.
+        const binding = [];
+        Object.values(objectiveResults).forEach(obj => {
+            obj.limitingCriteria.forEach(c => {
+                if (c.seal === overallSeal) binding.push({ code: obj.code, ...c });
+            });
+        });
+        binding.forEach(c => {
+            const div = document.createElement('div');
+            div.className = 'recommendation-item';
+            div.innerHTML = `<strong>${c.code} · Criterion ${c.number}</strong> (currently ${getSealDescriptor(c.seal).code}): ` +
+                `${c.text} <em>— your answer: "${c.selected}".</em>`;
+            container.appendChild(div);
+        });
+    }
+
+    // Also surface the lowest-scoring objectives for the Sovereignty Score.
+    const weak = Object.values(objectiveResults)
+        .filter(o => o.percentage < 75)
+        .sort((a, b) => a.percentage - b.percentage);
+    if (weak.length) {
+        const h = document.createElement('p');
+        h.className = 'rec-intro';
+        h.textContent = 'Objectives dragging down the Sovereignty Score (below 75%):';
+        container.appendChild(h);
+        weak.forEach(o => {
+            const div = document.createElement('div');
+            div.className = 'recommendation-item';
+            div.textContent = `${o.code} ${o.name}: ${o.percentage}% (weight ${Math.round(o.weight * 100)}%)`;
+            container.appendChild(div);
         });
     }
 }
 
 // Download report
 function downloadReport() {
-    const totalScore = document.getElementById('total-score').textContent;
-    const percentage = document.getElementById('percentage-score').textContent;
+    const sovScore = document.getElementById('sov-score-value').textContent;
+    const sealCode = document.querySelector('#seal-badge .seal-code')?.textContent || '';
+    const sealName = document.querySelector('#seal-badge .seal-name')?.textContent || '';
     const timestamp = new Date().toISOString().replace(/:/g, '-').split('.')[0];
 
     let report = `EU CLOUD SOVEREIGNTY FRAMEWORK ASSESSMENT
@@ -376,39 +383,48 @@ function downloadReport() {
 Assessment Date: ${new Date().toLocaleString()}
 Assessment ID: cloud-sovereignty-assessment-${timestamp}
 
-SCORE BREAKDOWN (Based on Official EU Framework Weights)
---------------------------------------------------------
+Methodology: ${assessmentData.framework.name} ${assessmentData.framework.version}
+             ${assessmentData.framework.methodology}
 
+RESULTS
+-------
+Sovereignty Score : ${sovScore}
+SEAL (weakest link): ${sealCode} - ${sealName}
+
+The SEAL level is the LOWEST SEAL achieved on any single criterion. The
+Sovereignty Score is the weighted average of the eight objective scores.
+
+SCORE BREAKDOWN BY OBJECTIVE
+----------------------------
 `;
 
-    Object.values(objectiveScores).forEach(obj => {
-        report += `${obj.code} ${obj.name} (${obj.weight}%): ${obj.score}/${obj.maxScore}\n`;
+    Object.values(objectiveResults).forEach(obj => {
+        report += `${obj.code} ${obj.name} (weight ${Math.round(obj.weight * 100)}%): ` +
+            `${obj.percentage}%  | objective SEAL: ${getSealDescriptor(obj.seal).code}\n`;
     });
 
     report += `
-TOTAL SCORE: ${totalScore}/1000 (${percentage})
-
-SEAL LEVEL: ${document.getElementById('seal-badge').textContent.trim()}
-
-RECOMMENDATIONS FOR IMPROVEMENT
--------------------------------
-
+BINDING CRITERIA (currently capping the overall SEAL)
+-----------------------------------------------------
 `;
-
-    const recContainer = document.getElementById('recommendations');
-    const recItems = recContainer.querySelectorAll('.recommendation-item');
-    recItems.forEach(item => {
-        report += `• ${item.textContent}\n`;
+    const overallSeal = Math.min(...Object.values(objectiveResults).map(o => o.seal));
+    Object.values(objectiveResults).forEach(obj => {
+        obj.limitingCriteria.forEach(c => {
+            if (c.seal === overallSeal) {
+                report += `• ${obj.code} · Criterion ${c.number} (${getSealDescriptor(c.seal).code}): ${c.text}\n    Your answer: "${c.selected}"\n`;
+            }
+        });
     });
 
     report += `
-Reference: EU Cloud Sovereignty Framework v1.2.1 (October 2025)
+Reference: ${assessmentData.framework.name} ${assessmentData.framework.version};
+Implementation Guidance and Sovereignty Assessment Calculator (1 June 2026).
 
 This tool is provided for informational and self-assessment purposes only.
-It does not constitute legal advice or official EU certification.
+It does not constitute legal advice or official EU certification. Point values
+are reference figures that contracting authorities may adapt.
 `;
 
-    // Create download
     const blob = new Blob([report], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -425,7 +441,7 @@ function restartAssessment() {
     currentObjectiveIndex = 0;
     currentQuestionIndex = 0;
     answers = {};
-    objectiveScores = {};
+    objectiveResults = {};
     showScreen('welcome-screen');
 }
 
