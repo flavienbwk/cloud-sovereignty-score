@@ -10,6 +10,10 @@
 //   - seal  : the SEAL level (0-4) that answer guarantees. Used for the weakest-link
 //             SEAL computation (overall SEAL = the MINIMUM across all answered criteria).
 //
+// Each question carries a `help` field: plain-language guidance (authored from the
+// framework's own criteria descriptions) clarifying the criterion's scope and how to
+// read its answer ladder. Shown via the info (i) toggle in the UI.
+//
 // Note: the official calculator left two intermediate answer labels blank in SOV-1 Q6;
 // they are filled here with neutral ordinal wording ("Minimal/Significant participation").
 
@@ -64,6 +68,7 @@ const assessmentData = {
           "id": "sov-1-q1",
           "number": 1,
           "text": "EU/EEA legal entity control - ensuring that ultimate decision-making authority resides within EU jurisdiction.",
+          "help": "Assesses where ultimate decision-making authority over the provider legally sits — the jurisdiction of the controlling entity and its ultimate owners, not where individual staff or shareholders happen to live. 'Entirely within the EU' means the legal entity and whoever ultimately controls it are all under EU/EEA jurisdiction, with no non-EU party able to direct strategic decisions.",
           "answers": [
             {
               "label": "1. Entirely outside the EU",
@@ -91,6 +96,7 @@ const assessmentData = {
           "id": "sov-1-q2",
           "number": 2,
           "text": "Change of Control Risk - evaluating the likelihood of takeover or transfer to non-sovereign owners",
+          "help": "How likely the provider could be acquired by or transferred to an owner outside EU/EEA control (foreign takeover, sale of a majority stake, parent-company change). Judge realistically from the ownership and investor structure and any control protections (e.g. golden shares); 'Very unlikely' implies durable safeguards against a non-EU takeover.",
           "answers": [
             {
               "label": "1. Very likely",
@@ -123,6 +129,7 @@ const assessmentData = {
           "id": "sov-1-q3",
           "number": 3,
           "text": "Control Over Roadmap - measuring the capacity of EU stakeholders to shape the provider’s technological and service evolution.",
+          "help": "Whether EU stakeholders can shape the product/service roadmap — from no influence, through public feedback channels, to formal governance bodies with EU participation, up to EU actors having decisive influence.",
           "answers": [
             {
               "label": "1. No influence possible",
@@ -150,6 +157,7 @@ const assessmentData = {
           "id": "sov-1-q4",
           "number": 4,
           "text": "Financial independence from non-EU capital - degree to which the provider relies on EU-based financing rather than external capital.",
+          "help": "How far the provider is financed by EU-based capital rather than non-EU investors or lenders. Consider the origin of equity, venture funding and debt, not merely where a bank account sits.",
           "answers": [
             {
               "label": "1. Almost entirely relying on non-EU funding",
@@ -182,6 +190,7 @@ const assessmentData = {
           "id": "sov-1-q5",
           "number": 5,
           "text": "EU economic contribution - extent of investment, jobs, and value creation within EU/EEA.",
+          "help": "Extent of investment, jobs and value creation retained inside the EU/EEA (R&D, payroll, taxes, facilities). 'Fully in the EU' means substantially all economic value is generated and kept in the EU.",
           "answers": [
             {
               "label": "1. Minimal",
@@ -214,6 +223,7 @@ const assessmentData = {
           "id": "sov-1-q6",
           "number": 6,
           "text": "Participation in EU strategic programs - involvement in initiatives such as IPCEI-CIS, Horizon Europe, or Gaia-X.",
+          "help": "Active, structural involvement in EU strategic initiatives such as IPCEI-CIS, Horizon Europe or Gaia-X — deeper participation scores higher than nominal membership.",
           "answers": [
             {
               "label": "No clear participation",
@@ -246,6 +256,7 @@ const assessmentData = {
           "id": "sov-1-q7",
           "number": 7,
           "text": "Alignment with EU industrial strategies - consistency with digital, green, and industrial sovereignty objectives defined at EU level.",
+          "help": "Consistency with EU digital, green and industrial sovereignty goals, evidenced by concrete plans, measured achievements and dedicated governance — not merely stated intentions.",
           "answers": [
             {
               "label": "No evidence exist",
@@ -273,6 +284,7 @@ const assessmentData = {
           "id": "sov-1-q8",
           "number": 8,
           "text": "Resilience to Cut-off - ability to sustain secure operations even if vendor support is withdrawn or disrupted.",
+          "help": "Whether the service could keep running securely if a (typically non-EU) vendor withdrew support or was disrupted: from immediate shutdown, through contractual continuity, to full autonomy or the ability to re-source/internalise key functions.",
           "answers": [
             {
               "label": "1. Immediate shutdown of the service is expected",
@@ -314,6 +326,7 @@ const assessmentData = {
           "id": "sov-2-q1",
           "number": 1,
           "text": "Primary Legal Jurisdiction - the national legal system governing the provider’s operations and contracts.",
+          "help": "Which legal system actually governs the entity delivering the service and its contracts. 'Exclusively EU law' means operations and contracts are governed solely under EU/Member-State law, with no governing non-EU law.",
           "answers": [
             {
               "label": "1. Non-EU only",
@@ -336,6 +349,7 @@ const assessmentData = {
           "id": "sov-2-q2",
           "number": 2,
           "text": "Extraterritorial Laws - degree of exposure to non-EU laws with cross-border reach (all).",
+          "help": "Exposure to non-EU laws with cross-border reach (e.g. US CLOUD Act, FISA 702, Chinese Cybersecurity Law) that could compel the provider regardless of EU law. Higher levels need structural insulation (EU-controlled entity, verified legal immunity), not just contractual clauses.",
           "answers": [
             {
               "label": "Fully exposed to non-EU laws",
@@ -368,6 +382,7 @@ const assessmentData = {
           "id": "sov-2-q3",
           "number": 3,
           "text": "Data Access Pathways - existence of legal, contractual, or technical channels through which non-EU authorities could compel access to data or systems.",
+          "help": "Whether legal, contractual or technical channels let non-EU authorities compel access to data or systems, and whether customers would be told. Best case: such requests are always rejected by the provider.",
           "answers": [
             {
               "label": "1. Non-EU authorities can compel access to data or systems without customers being notified",
@@ -400,6 +415,7 @@ const assessmentData = {
           "id": "sov-2-q4",
           "number": 4,
           "text": "Export Control Restrictions - applicability of international regimes such as ITAR or EAR, which may restrict usage or transfer.",
+          "help": "Applicability of export-control regimes such as ITAR/EAR that could restrict use or transfer towards EU Member States, EU citizens or international organisations. Consider whether any part of the offer is subject to such controls.",
           "answers": [
             {
               "label": "Restrictions exists towards a EU MS",
@@ -432,6 +448,7 @@ const assessmentData = {
           "id": "sov-2-q5",
           "number": 5,
           "text": "Origin of IP - location of intellectual property creation, registration, and development (all).",
+          "help": "Where the intellectual property is created, registered and developed (EU vs third countries). 'Fully within the EU' means all relevant IP originates and is developed in the EU.",
           "answers": [
             {
               "label": "1. Entirely outside the EU",
@@ -464,6 +481,7 @@ const assessmentData = {
           "id": "sov-2-q6",
           "number": 6,
           "text": "IP Holder Jurisdiction - legal jurisdiction where IP rights are owned and enforced.",
+          "help": "The legal jurisdiction under which IP rights are owned and enforced — distinct from where the IP was created; this focuses on the governing law of the rights themselves.",
           "answers": [
             {
               "label": "non-EU law, one single country",
@@ -505,6 +523,7 @@ const assessmentData = {
           "id": "sov-3-q1",
           "number": 1,
           "text": "Customer control over encryption keys",
+          "help": "Who ultimately controls the encryption keys, and therefore who can technically read the data. Top level = customer-exclusive control (e.g. customer-held HSM / bring-your-own-key) where the provider cannot read the data; bottom = provider-only keys.",
           "answers": [
             {
               "label": "1. Provider only",
@@ -537,6 +556,7 @@ const assessmentData = {
           "id": "sov-3-q2",
           "number": 2,
           "text": "Transparent data flows & access logs - visibility into when, where, and by whom data is accessed, including auditability of AI model usage.",
+          "help": "Visibility into when, where and by whom data is accessed, including AI model usage. Higher levels require complete, customer-controlled, real-time and independently auditable logs.",
           "answers": [
             {
               "label": "1. No data usage logs",
@@ -569,6 +589,7 @@ const assessmentData = {
           "id": "sov-3-q3",
           "number": 3,
           "text": "Secure deletion & proof of erasure od data - mechanisms guaranteeing irreversible removal of data, with verifiable evidence.",
+          "help": "Whether data deletion is irreversible and verifiable with evidence — from no guarantee, through manual/internal confirmation, to technically verified deletion with logs and independent verification.",
           "answers": [
             {
               "label": "1. No, irreversible deletion is neither guaranteed nor verifiable",
@@ -601,6 +622,7 @@ const assessmentData = {
           "id": "sov-3-q4",
           "number": 4,
           "text": "Data location strictly in EU/EEA – strict confinement of storage and processing to European jurisdictions, with no fallback to third countries.",
+          "help": "How strictly storage and processing are confined to the EU/EEA, counting every copy and fallback (disaster recovery, support access, CDN). The top level is all data exclusively in the EU with no third-country fallback.",
           "answers": [
             {
               "label": "1. Data location largely unknown and includes third countries without controls",
@@ -633,6 +655,7 @@ const assessmentData = {
           "id": "sov-3-q5",
           "number": 5,
           "text": "AI services - extent to which AI models and data pipelines are developed, trained, hosted, and governed under EU control, minimizing dependence on non-EU technology stacks.",
+          "help": "How far AI models and data pipelines are developed, trained, hosted and governed under EU control, including the chips/accelerators used. Higher levels reduce dependence on non-EU models and hardware (EU-origin models and chips at the top).",
           "answers": [
             {
               "label": "Non-EU or undetermined: Black-box AI, restricted chips",
@@ -674,6 +697,7 @@ const assessmentData = {
           "id": "sov-4-q1",
           "number": 1,
           "text": "Portability & Interoperability - ease of migrating workloads or integrating with alternative EU-controlled solutions without vendor lock-in.",
+          "help": "How easily workloads and data can be migrated to alternative EU-controlled solutions without lock-in — from no portability guarantees, through documented export methods and migration services, to already running on sovereign infrastructure.",
           "answers": [
             {
               "label": "1. No guarantees are provided for data or workload portability",
@@ -706,6 +730,7 @@ const assessmentData = {
           "id": "sov-4-q2",
           "number": 2,
           "text": "Ability to Operate Without Foreign Dependencies - capacity for EU operators to manage, maintain, and support the technology without requiring non-EU vendor involvement",
+          "help": "Whether EU-based teams can run, maintain and support the technology without requiring non-EU vendor involvement. Judge by who actually performs critical operations, not just where the contract sits.",
           "answers": [
             {
               "label": "1. Critical operational services are delivered by non-EU teams",
@@ -738,6 +763,7 @@ const assessmentData = {
           "id": "sov-4-q3",
           "number": 3,
           "text": "Skill Availability- existence of an EU-based talent pool with the expertise to operate and sustain the service.",
+          "help": "Availability of an EU-based talent pool able to operate and sustain the service. Higher levels mean staff are EU-based (and, at the top, security-cleared) rather than escalating to non-EU teams.",
           "answers": [
             {
               "label": "Global team, mainly non-EU",
@@ -770,6 +796,7 @@ const assessmentData = {
           "id": "sov-4-q4",
           "number": 4,
           "text": "Support Channels - assurance that operational support is delivered from within the EU and subject exclusively to EU/EEA legal frameworks",
+          "help": "Where operational support is delivered from and which law governs it. Top level: all support staff in the EU holding relevant security clearances; lower levels involve non-EU support or escalation outside the EU.",
           "answers": [
             {
               "label": "1. The support team is global with the majority of staff located outside the EU",
@@ -802,6 +829,7 @@ const assessmentData = {
           "id": "sov-4-q5",
           "number": 5,
           "text": "Documentation & Knowledge Transfer - availability of full technical documentation, source code, and operational know-how enabling long-term autonomy.",
+          "help": "Where technical documentation, source code and operational know-how are stored and managed, and whether this enables long-term autonomy. Higher levels keep content, metadata and backups in the EU with EU-only privileged access.",
           "answers": [
             {
               "label": "1. Global/non-EU exposure - Documentation/knowledge is stored or managed outside EU and may be subject to non-EU jurisdiction or access",
@@ -834,6 +862,7 @@ const assessmentData = {
           "id": "sov-4-q6",
           "number": 6,
           "text": "Subcontractor & Suppliers jurisdiction - location and legal control of critical suppliers or subcontractors involved in service delivery.",
+          "help": "Location and legal control of the critical subcontractors and suppliers in the delivery chain, and what happens to the service if they are cut off — mirroring the resilience scale from immediate shutdown to full autonomy.",
           "answers": [
             {
               "label": "1. Immediate shutdown of the service is expected",
@@ -875,6 +904,7 @@ const assessmentData = {
           "id": "sov-5-q1",
           "number": 1,
           "text": "Origin of Components - geographic source of key physical parts",
+          "help": "Geographic source and disclosure of key physical parts (CPUs, GPUs, storage) — from no disclosure, through transparency with exceptions, to EU-certified provenance.",
           "answers": [
             {
               "label": "No disclosure",
@@ -907,6 +937,7 @@ const assessmentData = {
           "id": "sov-5-q2",
           "number": 2,
           "text": "Origin of Components: Manufacturing Location - countries where hardware is manufactured or assembled",
+          "help": "Where hardware is actually manufactured or assembled, and the audit rights over it. Top level: exclusively designed and built by EU teams; bottom: fully foreign 'black box'.",
           "answers": [
             {
               "label": "Fully foreign, black box",
@@ -939,6 +970,7 @@ const assessmentData = {
           "id": "sov-5-q3",
           "number": 3,
           "text": "Origin of Components - jurisdiction and provenance of embedded code controlling hardware, firmwares",
+          "help": "Jurisdiction and provenance of the embedded code/firmware that controls the hardware — focuses on transparency and disclosure of who controls that low-level code.",
           "answers": [
             {
               "label": "No disclosure",
@@ -971,6 +1003,7 @@ const assessmentData = {
           "id": "sov-5-q4",
           "number": 4,
           "text": "Origin of Software (all)  - where and by whom software is architected and programmed",
+          "help": "Where and by whom the software is architected and programmed. Higher levels mean core and essential parts (and ultimately all of it) are designed and maintained by EU teams, versus a foreign 'black box'.",
           "answers": [
             {
               "label": "1. Software is of fully foreign origin with no transparency ('black box')",
@@ -1003,6 +1036,7 @@ const assessmentData = {
           "id": "sov-5-q5",
           "number": 5,
           "text": "Origin of Software (all) - location and jurisdiction governing software packaging, distribution, and updates.",
+          "help": "Who controls and executes the build/release/deployment pipeline (administration, code signing, approvals) and under which jurisdiction. Top level: EU control and execution with EU-enforced policy/security gates.",
           "answers": [
             {
               "label": "1. Non-EU control & execution - Build/release/deployment is executed and governed by non-EU teams, with pipeline control and approvals under non-EU jurisdiction",
@@ -1035,6 +1069,7 @@ const assessmentData = {
           "id": "sov-5-q6",
           "number": 6,
           "text": "Single Point of Dependency - degree of reliance on non-EU vendors, facilities, or proprietary technologies",
+          "help": "Reliance on individual non-EU vendors, facilities or proprietary technologies in critical versus non-critical services, and whether that reliance is documented. Top level: no dependency on any non-EU vendor or facility.",
           "answers": [
             {
               "label": "Only non-EU vendors or facilities involved",
@@ -1067,6 +1102,7 @@ const assessmentData = {
           "id": "sov-5-q7",
           "number": 7,
           "text": "Supply Chain Transparency - visibility into the entire supplier and sub-supplier chain, including audit rights.",
+          "help": "Visibility into the full supplier and sub-supplier chain, including audit rights — from no audit rights, through critical suppliers auditable, to all suppliers and subcontractors auditable.",
           "answers": [
             {
               "label": "No suppliers can be audited",
@@ -1108,6 +1144,7 @@ const assessmentData = {
           "id": "sov-6-q1",
           "number": 1,
           "text": "Interoperability & Open interfaces - ability to integrate with other technologies through well-documented and non-proprietary APIs or protocols.",
+          "help": "Whether you can integrate via well-documented, non-proprietary APIs and protocols. Higher levels predominantly follow recognised open standards (ISO/IEC, ETSI/CEN, IETF/W3C) and open formats enabling portability, versus closed proprietary interfaces.",
           "answers": [
             {
               "label": "1. Closed proprietary interfaces - Integrations rely on closed or proprietary interfaces and formats controlled by the vendor",
@@ -1140,6 +1177,7 @@ const assessmentData = {
           "id": "sov-6-q2",
           "number": 2,
           "text": "Open Standards Compliance - extent to which the solution adheres to publicly governed and widely adopted standards, reducing dependency on single vendors",
+          "help": "Whether core services (identity/IAM, data formats, messaging, logging, integration) follow publicly governed open standards under a formal policy. Top level: a formal policy mandates open standards for all core services.",
           "answers": [
             {
               "label": "1. No open standards - Core services (e.g., identity and access management, data formats, messaging, security, logging, integration protocols) rely mainly on proprietary technologies",
@@ -1172,6 +1210,7 @@ const assessmentData = {
           "id": "sov-6-q3",
           "number": 3,
           "text": "Open Source Availability - whether software is accessible under open licenses, with rights to audit, modify, and redistribute, ensuring transparency and adaptability",
+          "help": "Whether the software is open source with rights to audit, modify and redistribute, and how its governance is structured. Top level: fully open source governed by an independent or EU-based entity, enabling handover; bottom: fully closed and vendor-controlled.",
           "answers": [
             {
               "label": "1. The software is fully closed-source with no rights to audit or modify and its governance is vendor-controlled",
@@ -1204,6 +1243,7 @@ const assessmentData = {
           "id": "sov-6-q4",
           "number": 4,
           "text": "Service Architecture Transparency - visibility into the design and functioning of the service, including architectural documentation, data flows, and dependencies",
+          "help": "Visibility into the design, data flows and dependencies of the service (architectural documentation). Higher levels provide public insight and, at the top, let customers contribute changes.",
           "answers": [
             {
               "label": "No insight provided",
@@ -1236,6 +1276,7 @@ const assessmentData = {
           "id": "sov-6-q5",
           "number": 5,
           "text": "HPC Soveriegnty - degree of European independence in high-performance computing capabilities, including processors, accelerators, and software ecosystems.",
+          "help": "European independence in high-performance computing — processors, accelerators and software ecosystem — from imported black-box HPC, through EU-hosted/foreign-stack and EU co-design, to EU design + EU fabrication + EU operation.",
           "answers": [
             {
               "label": "Imported black-box HPC computers",
@@ -1277,6 +1318,7 @@ const assessmentData = {
           "id": "sov-7-q1",
           "number": 1,
           "text": "Security Certification - attainment of EU and internationally recognized certifications (all)",
+          "help": "Level of recognised security assurance/certification, on the framework's evaluation-assurance ladder (e.g. EAL2 up to EAL4-5). Choose the highest level independently attained.",
           "answers": [
             {
               "label": "ELA0",
@@ -1309,6 +1351,7 @@ const assessmentData = {
           "id": "sov-7-q2",
           "number": 2,
           "text": "EU Regulatory compliance - demonstrable adherence to GDPR, NIS2, DORA, and other EU frameworks",
+          "help": "Demonstrable adherence to GDPR, NIS2, DORA and other EU frameworks. Higher levels require verified, independently audited compliance rather than informal or partial practices.",
           "answers": [
             {
               "label": "1. No evident adherence to any EU Regulations",
@@ -1341,6 +1384,7 @@ const assessmentData = {
           "id": "sov-7-q3",
           "number": 3,
           "text": "EU-based SOC & incident handling - security operations centers and response teams operating exclusively under EU jurisdiction.",
+          "help": "Whether security operations and incident response run exclusively under EU jurisdiction. Top level: the full incident lifecycle is handled by EU teams participating in ENISA information-sharing; lower levels escalate to non-EU teams.",
           "answers": [
             {
               "label": "1. The SOC and incident response teams are located outside the EU",
@@ -1373,6 +1417,7 @@ const assessmentData = {
           "id": "sov-7-q4",
           "number": 4,
           "text": "Control over security monitoring/logging - customer or EU authority ability to oversee logs, alerts, and monitoring functions directly.",
+          "help": "Whether the customer or an EU authority can directly oversee logs, alerts and monitoring, and where logs are stored. Top level: full access to immutable, tamper-proof logs stored exclusively in the EU.",
           "answers": [
             {
               "label": "1. The provider retains full control over all security logs and monitoring",
@@ -1405,6 +1450,7 @@ const assessmentData = {
           "id": "sov-7-q5",
           "number": 5,
           "text": "Disclosure of incidents - transparent, timely, and EU-compliant reporting of breaches or vulnerabilities",
+          "help": "Transparency, timeliness and EU-compliance of breach/vulnerability reporting and cooperation with EU CSIRTs. Higher levels mean real-time, audit-backed disclosure and proven readiness for investigations.",
           "answers": [
             {
               "label": "1. No compliance - ad-hoc or absent breach reporting workflow, with no possibility to collaborate with EU CSIRTs or to support EU-led investigations",
@@ -1437,6 +1483,7 @@ const assessmentData = {
           "id": "sov-7-q6",
           "number": 6,
           "text": "Maintenance Autonomy - ability to develop, test, and apply security patches independently of non-EU vendors",
+          "help": "Ability to develop, test and apply security patches independently of non-EU vendors. Higher levels let the customer deploy patches independently (with appropriate testing) rather than being tied to vendor schedules.",
           "answers": [
             {
               "label": "1. No autonomy in the deployment of security patches",
@@ -1469,6 +1516,7 @@ const assessmentData = {
           "id": "sov-7-q7",
           "number": 7,
           "text": "Auditability - capacity for EU entities to perform independent security and compliance audits with full access.",
+          "help": "Whether independent EU entities can perform security and compliance audits with full access — from vendor-only access to full audit rights for any independent entity.",
           "answers": [
             {
               "label": "1. No access to entities other than the vendor",
@@ -1510,6 +1558,7 @@ const assessmentData = {
           "id": "sov-8-q1",
           "number": 1,
           "text": "Energy efficiency - adoption of energy-efficient infrastructure (all) and measurable improvement targets.",
+          "help": "Data-centre energy efficiency, measured by Power Usage Effectiveness (PUE) with improvement targets — lower PUE is better; the top level is roughly PUE < 1.2, EU-verified.",
           "answers": [
             {
               "label": "PUE > 0",
@@ -1542,6 +1591,7 @@ const assessmentData = {
           "id": "sov-8-q2",
           "number": 2,
           "text": "Hardware reuse & recycling - circular economy practices ensuring reuse, refurbishment, and responsible end-of-life treatment of hardware.",
+          "help": "Circular-economy practices for reuse, refurbishment and responsible end-of-life of hardware. Top level: an EU-certified lifecycle; bottom: no policy.",
           "answers": [
             {
               "label": "No policy",
@@ -1574,6 +1624,7 @@ const assessmentData = {
           "id": "sov-8-q3",
           "number": 3,
           "text": "Environmental impact reporting - transparent measurement and disclosure of carbon emissions, water usage, and other sustainability indicators.",
+          "help": "Transparency of carbon, water and other sustainability metrics. Higher levels use a detailed EU methodology and, at the top, EU-audited reporting.",
           "answers": [
             {
               "label": "No reporting",
@@ -1606,6 +1657,7 @@ const assessmentData = {
           "id": "sov-8-q4",
           "number": 4,
           "text": "Energy supplies - sourcing of renewable or low-carbon energy to power infrastructure and operations",
+          "help": "Sourcing of renewable or low-carbon energy for infrastructure and operations. Top level: only green EU energy supplies; bottom: non-traceable energy.",
           "answers": [
             {
               "label": "Non traceable",

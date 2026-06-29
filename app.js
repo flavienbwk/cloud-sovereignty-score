@@ -69,8 +69,29 @@ function displayQuestion() {
     document.getElementById('question-number').textContent = `${objective.code} · Criterion ${question.number}`;
     document.getElementById('question-text').textContent = question.text;
 
+    // Contextual help (collapsed by default on every question)
+    const helpEl = document.getElementById('question-help');
+    const helpToggle = document.getElementById('help-toggle');
+    helpEl.hidden = true;
+    helpToggle.classList.remove('active');
+    if (question.help) {
+        helpEl.textContent = question.help;
+        helpToggle.style.display = '';
+    } else {
+        helpEl.textContent = '';
+        helpToggle.style.display = 'none';
+    }
+
     renderQuestionOptions(question, globalIndex);
     updateNavigationButtons();
+}
+
+// Toggle the contextual help panel for the current question
+function toggleHelp() {
+    const helpEl = document.getElementById('question-help');
+    const helpToggle = document.getElementById('help-toggle');
+    helpEl.hidden = !helpEl.hidden;
+    helpToggle.classList.toggle('active', !helpEl.hidden);
 }
 
 // Render the ordinal answer options for a question

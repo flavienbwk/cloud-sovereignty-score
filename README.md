@@ -84,7 +84,7 @@ In public procurement, the contracting authority sets a **minimum required SEAL*
 
 1. Visit the [web assessment tool](https://flavienbwk.github.io/cloud-sovereignty-score/)
 2. Click "Begin Assessment"
-3. Answer all 48 criteria across the 8 objectives
+3. Answer all 48 criteria across the 8 objectives (tap the **ⓘ** icon on any criterion for guidance on its scope and answer ladder)
 4. Review your **Sovereignty Score** and **SEAL level**, the per-objective breakdown, and the binding criteria
 5. Download your assessment report
 
@@ -165,6 +165,7 @@ After completing your assessment, showcase your result with these badges:
 - **48 Official Criteria** - Transcribed from the official assessment calculator
 - **Two Official Outputs** - Weighted Sovereignty Score **and** weakest-link SEAL (0–4)
 - **Per-Objective Breakdown** - Score and SEAL for each of the 8 objectives
+- **Contextual Help** - An info (ⓘ) tooltip on every criterion explaining its scope and how to read the answer ladder
 - **Binding-Criteria Guidance** - Highlights exactly which criteria cap your SEAL
 - **Downloadable Report** - Timestamped text report
 - **Data-Driven** - All criteria, values and SEAL mappings live in `questions.js`
@@ -180,6 +181,7 @@ All content lives in `questions.js`; the engine lives in `app.js`.
     id: "sov-3-q1",
     number: 1,
     text: "Customer control over encryption keys",
+    help: "Who ultimately controls the encryption keys, and therefore who can technically read the data...",
     answers: [
         { label: "1. Provider only",                          value: 0,   seal: 0 },
         { label: "2. Primarily the provider but not exclusively", value: 50,  seal: 1 },
@@ -192,6 +194,7 @@ All content lives in `questions.js`; the engine lives in `app.js`.
 
 - `value` feeds the weighted **Sovereignty Score**.
 - `seal` feeds the weakest-link **SEAL** computation.
+- `help` is the plain-language guidance shown by the ⓘ toggle, authored from the framework's own criteria descriptions.
 
 ### Adjusting weights or values
 

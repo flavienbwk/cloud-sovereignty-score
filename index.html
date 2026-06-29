@@ -124,7 +124,13 @@
 
             <div class="question-container" id="question-container">
                 <div class="question-number" id="question-number"></div>
-                <div class="question-text" id="question-text"></div>
+                <div class="question-heading">
+                    <div class="question-text" id="question-text"></div>
+                    <button class="help-toggle" id="help-toggle" type="button"
+                            aria-label="How to answer this question" title="How to answer this question"
+                            onclick="toggleHelp()">i</button>
+                </div>
+                <div class="question-help" id="question-help" hidden></div>
                 <div class="question-options" id="question-options"></div>
             </div>
 
