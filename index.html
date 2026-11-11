@@ -11,47 +11,54 @@
     <div class="container">
         <!-- Header -->
         <header class="header" id="header">
+            <div class="lang-picker">
+                <label for="language-select" data-i18n="languageLabel">Language</label>
+                <select id="language-select" onchange="setLanguage(this.value)">
+                    <option value="en">🇬🇧 English</option>
+                    <option value="sv">🇸🇪 Svenska</option>
+                </select>
+            </div>
             <div class="logo">
                 <span class="flag">🇪🇺</span>
-                <h1>EU Cloud Sovereignty Framework</h1>
+                <h1 data-i18n="headerTitle">EU Cloud Sovereignty Framework</h1>
             </div>
-            <p class="subtitle">Assessment Tool v3.0.0</p>
-            <p class="framework-version">Aligned with the EU Cloud Sovereignty Framework (v1.2.1) and the official Implementation Guidance &amp; Sovereignty Assessment Calculator (1 June 2026)</p>
+            <p class="subtitle" data-i18n="headerSubtitle">Assessment Tool v3.0.0</p>
+            <p class="framework-version" data-i18n="headerFrameworkVersion">Aligned with the EU Cloud Sovereignty Framework (v1.2.1) and the official Implementation Guidance &amp; Sovereignty Assessment Calculator (1 June 2026)</p>
         </header>
 
         <!-- Welcome Screen -->
         <section id="welcome-screen" class="screen active">
             <div class="welcome-content">
-                <h2>Welcome to the Cloud Sovereignty Assessment</h2>
-                <p class="intro-text">
+                <h2 data-i18n="welcomeTitle">Welcome to the Cloud Sovereignty Assessment</h2>
+                <p class="intro-text" data-i18n="welcomeIntro">
                     This interactive tool helps organizations assess their cloud infrastructure's compliance
                     with EU sovereignty requirements through a comprehensive questionnaire covering
                     <strong>8 key sovereignty objectives</strong>.
                 </p>
 
-                <button class="btn btn-primary btn-large" onclick="startAssessment()">
+                <button class="btn btn-primary btn-large" onclick="startAssessment()" data-i18n="beginAssessment">
                     Begin Assessment
                 </button>
 
                 <div class="info-grid">
                     <div class="info-card">
                         <div class="info-icon">📋</div>
-                        <h3>48 Criteria</h3>
-                        <p>The official assessment criteria across all 8 objectives</p>
+                        <h3 data-i18n="infoCriteriaTitle">48 Criteria</h3>
+                        <p data-i18n="infoCriteriaText">The official assessment criteria across all 8 objectives</p>
                     </div>
                     <div class="info-card">
                         <div class="info-icon">⏱️</div>
-                        <h3>10-15 Minutes</h3>
-                        <p>Estimated completion time</p>
+                        <h3 data-i18n="infoTimeTitle">10-15 Minutes</h3>
+                        <p data-i18n="infoTimeText">Estimated completion time</p>
                     </div>
                     <div class="info-card">
                         <div class="info-icon">🎯</div>
-                        <h3>Score + SEAL</h3>
-                        <p>A weighted Sovereignty Score and a SEAL level (0–4)</p>
+                        <h3 data-i18n="infoScoreTitle">Score + SEAL</h3>
+                        <p data-i18n="infoScoreText">A weighted Sovereignty Score and a SEAL level (0–4)</p>
                     </div>
                 </div>
 
-                <div class="method-note">
+                <div class="method-note" data-i18n="methodNote">
                     <strong>How it scores (official methodology):</strong> the
                     <em>Sovereignty Score</em> is the weighted average of the 8 objective scores,
                     while the <em>SEAL level</em> is the <strong>lowest</strong> SEAL achieved on
@@ -60,46 +67,46 @@
                 </div>
 
                 <div class="objectives-overview">
-                    <h3>The 8 Sovereignty Objectives</h3>
+                    <h3 data-i18n="objectivesOverviewTitle">The 8 Sovereignty Objectives</h3>
                     <div class="objectives-list">
                         <div class="objective-item highlight">
                             <span class="obj-code">SOV-1</span>
-                            <span class="obj-name">Strategic Sovereignty</span>
+                            <span class="obj-name" data-i18n-obj="strategic">Strategic Sovereignty</span>
                             <span class="obj-weight">20%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-2</span>
-                            <span class="obj-name">Legal & Jurisdictional Sovereignty</span>
+                            <span class="obj-name" data-i18n-obj="legal">Legal & Jurisdictional Sovereignty</span>
                             <span class="obj-weight">10%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-3</span>
-                            <span class="obj-name">Data & AI Sovereignty</span>
+                            <span class="obj-name" data-i18n-obj="data_control">Data & AI Sovereignty</span>
                             <span class="obj-weight">10%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-4</span>
-                            <span class="obj-name">Operational Sovereignty</span>
+                            <span class="obj-name" data-i18n-obj="operational">Operational Sovereignty</span>
                             <span class="obj-weight">15%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-5</span>
-                            <span class="obj-name">Supply Chain Sovereignty</span>
+                            <span class="obj-name" data-i18n-obj="supply_chain">Supply Chain Sovereignty</span>
                             <span class="obj-weight">10%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-6</span>
-                            <span class="obj-name">Technology Sovereignty</span>
+                            <span class="obj-name" data-i18n-obj="technology">Technology Sovereignty</span>
                             <span class="obj-weight">15%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-7</span>
-                            <span class="obj-name">Security & Compliance Sovereignty</span>
+                            <span class="obj-name" data-i18n-obj="security">Security & Compliance Sovereignty</span>
                             <span class="obj-weight">15%</span>
                         </div>
                         <div class="objective-item">
                             <span class="obj-code">SOV-8</span>
-                            <span class="obj-name">Environmental Sustainability</span>
+                            <span class="obj-name" data-i18n-obj="sustainability">Environmental Sustainability</span>
                             <span class="obj-weight">5%</span>
                         </div>
                     </div>
@@ -127,7 +134,7 @@
                 <div class="question-heading">
                     <div class="question-text" id="question-text"></div>
                     <button class="help-toggle" id="help-toggle" type="button"
-                            aria-label="How to answer this question" title="How to answer this question"
+                            data-i18n-aria="helpToggleAria" aria-label="How to answer this question" title="How to answer this question"
                             onclick="toggleHelp()">i</button>
                 </div>
                 <div class="question-help" id="question-help" hidden></div>
@@ -135,10 +142,10 @@
             </div>
 
             <div class="navigation-buttons">
-                <button class="btn btn-secondary" id="prev-btn" onclick="previousQuestion()" disabled>
+                <button class="btn btn-secondary" id="prev-btn" onclick="previousQuestion()" disabled data-i18n="prevButton">
                     Previous
                 </button>
-                <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" disabled>
+                <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" disabled data-i18n="nextButton">
                     Next
                 </button>
             </div>
@@ -147,17 +154,17 @@
         <!-- Results Screen -->
         <section id="results-screen" class="screen">
             <div class="results-header">
-                <h2>Assessment Results</h2>
+                <h2 data-i18n="resultsTitle">Assessment Results</h2>
             </div>
 
             <div class="results-summary">
                 <div class="result-card sov-score-card">
-                    <div class="result-card-label">Sovereignty Score</div>
+                    <div class="result-card-label" data-i18n="sovScoreLabel">Sovereignty Score</div>
                     <div class="percentage-value" id="sov-score-value">0%</div>
                     <div class="result-card-detail" id="sov-score-detail"></div>
                 </div>
                 <div class="result-card seal-card">
-                    <div class="result-card-label">SEAL — weakest link across all criteria</div>
+                    <div class="result-card-label" data-i18n="sealLabel">SEAL — weakest link across all criteria</div>
                     <div class="seal-badge" id="seal-badge"></div>
                 </div>
             </div>
@@ -167,10 +174,10 @@
             <div class="recommendations" id="recommendations"></div>
 
             <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="downloadReport()">
+                <button class="btn btn-secondary" onclick="downloadReport()" data-i18n="downloadReportBtn">
                     Download Report
                 </button>
-                <button class="btn btn-primary" onclick="restartAssessment()">
+                <button class="btn btn-primary" onclick="restartAssessment()" data-i18n="restartBtn">
                     Start New Assessment
                 </button>
             </div>
@@ -178,19 +185,20 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>
+            <p data-i18n="footerDisclaimer">
                 <strong>Disclaimer:</strong> This tool is for informational and self-assessment purposes only.
                 It does not constitute legal advice or official EU certification.
             </p>
             <p>
-                <a href="https://github.com/flavienbwk/cloud-sovereignty-score" target="_blank">View on GitHub</a> |
-                <a href="https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en" target="_blank">EU Framework</a> |
-                <a href="https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en" target="_blank">Implementation Guidance (June 2026)</a>
+                <a href="https://github.com/flavienbwk/cloud-sovereignty-score" target="_blank" data-i18n="footerGitHub">View on GitHub</a> |
+                <a href="https://commission.europa.eu/document/download/09579818-64a6-4dd5-9577-446ab6219113_en" target="_blank" data-i18n="footerFramework">EU Framework</a> |
+                <a href="https://commission.europa.eu/news-and-media/news/sovereign-cloud-framework-explained-2026-06-01_en" target="_blank" data-i18n="footerGuidance">Implementation Guidance (June 2026)</a>
             </p>
         </footer>
     </div>
 
     <script src="questions.js"></script>
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
