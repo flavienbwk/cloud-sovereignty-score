@@ -316,7 +316,7 @@ const translations = {
         "answers": [
           "Restriktioner finns gentemot en EU-medlemsstat",
           "Restriktioner finns gentemot EU-medborgare eller internationella organisationer",
-          "Intäkter >50 % inom EU",
+          "Andel av intäkterna >50 % inom EU",
           "Del av erbjudandet kan inte exponeras för restriktioner gentemot EU-medlemsstater",
           "Del av erbjudandet kan inte exponeras för restriktioner gentemot EU-medlemsstater eller internationella organisationer"
         ]
@@ -360,7 +360,7 @@ const translations = {
         "answers": [
           "1. Inga loggar över dataanvändning",
           "2. Grundläggande loggar ofullständiga (saknar datum, användare, typ av åtkomst, åtkomstväg etc.)",
-          "3. Loggar finns men inte i realtid eller kontrollerade av leverantören",
+          "3. Loggar finns men inte i realtid eller kontrollerade av leverantören (i enkäten är leverantören utbytt mot kunden)",
           "4. Full kundkontrollerad insyn i loggåtkomst men inte i realtid",
           "5. Realtidsövervakning från kundens sida och oberoende granskningsbarhet"
         ]
