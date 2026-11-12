@@ -259,7 +259,7 @@ const assessmentData = {
           "help": "Consistency with EU digital, green and industrial sovereignty goals, evidenced by concrete plans, measured achievements and dedicated governance — not merely stated intentions.",
           "answers": [
             {
-              "label": "No evidence exist",
+              "label": "No evidence exists",
               "value": 0.0,
               "seal": 4
             },
@@ -418,12 +418,12 @@ const assessmentData = {
           "help": "Applicability of export-control regimes such as ITAR/EAR that could restrict use or transfer towards EU Member States, EU citizens or international organisations. Consider whether any part of the offer is subject to such controls.",
           "answers": [
             {
-              "label": "Restrictions exists towards a EU MS",
+              "label": "Restrictions exist towards an EU MS",
               "value": 0.0,
               "seal": 0
             },
             {
-              "label": "Restrictions exists towards EU citizens or international organisations",
+              "label": "Restrictions exist towards EU citizens or international organisations",
               "value": 41.75,
               "seal": 1
             },
@@ -588,7 +588,7 @@ const assessmentData = {
         {
           "id": "sov-3-q3",
           "number": 3,
-          "text": "Secure deletion & proof of erasure od data - mechanisms guaranteeing irreversible removal of data, with verifiable evidence.",
+          "text": "Secure deletion & proof of erasure of data - mechanisms guaranteeing irreversible removal of data, with verifiable evidence.",
           "help": "Whether data deletion is irreversible and verifiable with evidence — from no guarantee, through manual/internal confirmation, to technically verified deletion with logs and independent verification.",
           "answers": [
             {
@@ -955,12 +955,12 @@ const assessmentData = {
               "seal": 3
             },
             {
-              "label": "Build by EU Teams, on the basis of a foreign code",
+              "label": "Built by EU teams, on the basis of a foreign code",
               "value": 107.25,
               "seal": 3
             },
             {
-              "label": "Exclusive designed and build by EU Teams",
+              "label": "Exclusively designed and built by EU teams",
               "value": 143.0,
               "seal": 4
             }
@@ -1092,7 +1092,7 @@ const assessmentData = {
               "seal": 3
             },
             {
-              "label": "No depedency on non-EU vendor or facility",
+              "label": "No dependency on non-EU vendor or facility",
               "value": 143.0,
               "seal": 4
             }
@@ -1275,7 +1275,7 @@ const assessmentData = {
         {
           "id": "sov-6-q5",
           "number": 5,
-          "text": "HPC Soveriegnty - degree of European independence in high-performance computing capabilities, including processors, accelerators, and software ecosystems.",
+          "text": "HPC Sovereignty - degree of European independence in high-performance computing capabilities, including processors, accelerators, and software ecosystems.",
           "help": "European independence in high-performance computing — processors, accelerators and software ecosystem — from imported black-box HPC, through EU-hosted/foreign-stack and EU co-design, to EU design + EU fabrication + EU operation.",
           "answers": [
             {
@@ -1364,7 +1364,7 @@ const assessmentData = {
               "seal": 4
             },
             {
-              "label": "3. Moderate compliance to some well-know EU Regulations (controls exist but gaps remain; compliance not fully demonstrated)",
+              "label": "3. Moderate compliance to some well-known EU Regulations (controls exist but gaps remain; compliance not fully demonstrated)",
               "value": 71.5,
               "seal": 4
             },
@@ -1374,7 +1374,7 @@ const assessmentData = {
               "seal": 4
             },
             {
-              "label": "5. Fully compliant to all well-know EU regulations (verified compliance, independently audited)",
+              "label": "5. Fully compliant to all well-known EU regulations (verified compliance, independently audited)",
               "value": 143.0,
               "seal": 4
             }
@@ -1539,7 +1539,7 @@ const assessmentData = {
               "seal": 1
             },
             {
-              "label": "5. Full control by any idependent entity to perform security and compliance audits",
+              "label": "5. Full control by any independent entity to perform security and compliance audits",
               "value": 143.0,
               "seal": 4
             }

@@ -50,6 +50,42 @@ body {
     color: var(--white);
     padding: 40px 30px;
     text-align: center;
+    position: relative;
+}
+
+/* Language picker (top-right of the header) */
+.lang-picker {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.lang-picker label {
+    opacity: 0.85;
+}
+
+.lang-picker select {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--border-radius);
+    padding: 4px 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.lang-picker select option {
+    color: var(--text-primary);
+    background: var(--white);
+}
+
+.lang-picker select:focus-visible {
+    outline: 2px solid var(--primary-gold);
+    outline-offset: 1px;
 }
 
 .logo {
@@ -703,6 +739,12 @@ body {
 
     .header h1 {
         font-size: 24px;
+    }
+
+    .lang-picker {
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
     }
 
     .flag {

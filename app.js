@@ -15,12 +15,116 @@ let objectiveResults = {};
 
 // Flatten questions for easier navigation
 let flatQuestions = [];
+let questionsById = {};      // question id -> question (for localized re-rendering)
+
+// ---------------------------------------------------------------------------
+// i18n: translations live in i18n.js (`translations` global). English framework
+// content in questions.js is the fallback source of truth; other locales only
+// override strings via their dictionaries.
+// ---------------------------------------------------------------------------
+const DEFAULT_LANGUAGE = 'en';
+const LANGUAGE_STORAGE_KEY = 'css-lang';
+let currentLanguage = DEFAULT_LANGUAGE;
+
+// Translate a UI string, with {placeholder} substitution from `vars`.
+function t(key, vars) {
+    const dict = (translations[currentLanguage] && translations[currentLanguage].ui)
+        || translations[DEFAULT_LANGUAGE].ui;
+    let str = (dict[key] !== undefined ? dict[key] : translations[DEFAULT_LANGUAGE].ui[key]);
+    if (str === undefined) str = key;
+    if (vars) {
+        Object.keys(vars).forEach(k => {
+            str = str.split('{' + k + '}').join(String(vars[k]));
+        });
+    }
+    return str;
+}
+
+// Localized view of an objective (falls back to questions.js English).
+function localizedObjective(objective) {
+    const ov = translations[currentLanguage] && translations[currentLanguage].objectives
+        && translations[currentLanguage].objectives[objective.id];
+    return {
+        name: (ov && ov.name) || objective.name,
+        description: (ov && ov.description) || objective.description
+    };
+}
+
+function localizedObjectiveById(id) {
+    const objective = assessmentData.objectives.find(o => o.id === id);
+    return objective ? localizedObjective(objective) : { name: id, description: '' };
+}
+
+// Localized view of a SEAL level descriptor.
+function localizedSeal(level) {
+    const base = getSealDescriptor(level);
+    const ov = translations[currentLanguage] && translations[currentLanguage].sealLevels
+        && translations[currentLanguage].sealLevels[String(base.level)];
+    return {
+        ...base,
+        name: (ov && ov.name) || base.name,
+        description: (ov && ov.description) || base.description
+    };
+}
+
+// Localized view of a question (text, help, answer labels).
+function localizedQuestion(question) {
+    const ov = translations[currentLanguage] && translations[currentLanguage].questions
+        && translations[currentLanguage].questions[question.id];
+    if (!ov) return question;
+    return {
+        ...question,
+        text: ov.text || question.text,
+        help: ov.help !== undefined ? ov.help : question.help,
+        answers: question.answers.map((a, i) => ({
+            ...a,
+            label: (ov.answers && ov.answers[i]) || a.label
+        }))
+    };
+}
+
+// Apply translations to all static elements marked with data-i18n attributes.
+function applyStaticTranslations() {
+    document.title = t('docTitle');
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.innerHTML = t(el.getAttribute('data-i18n'));
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const val = t(el.getAttribute('data-i18n-aria'));
+        el.setAttribute('aria-label', val);
+        el.setAttribute('title', val);
+    });
+    document.querySelectorAll('[data-i18n-obj]').forEach(el => {
+        el.textContent = localizedObjectiveById(el.getAttribute('data-i18n-obj')).name;
+    });
+}
+
+// Switch the UI language, persist the choice, and re-render the active screen.
+function setLanguage(lang) {
+    if (!translations[lang]) lang = DEFAULT_LANGUAGE;
+    currentLanguage = lang;
+    document.documentElement.lang = lang;
+    try { localStorage.setItem(LANGUAGE_STORAGE_KEY, lang); } catch (e) { /* storage unavailable */ }
+
+    const select = document.getElementById('language-select');
+    if (select) select.value = lang;
+
+    applyStaticTranslations();
+
+    if (document.getElementById('assessment-screen').classList.contains('active')) {
+        displayQuestion();
+    } else if (document.getElementById('results-screen').classList.contains('active')) {
+        calculateResults();
+    }
+}
 
 // Initialize the application
 function initializeApp() {
     flatQuestions = [];
+    questionsById = {};
     assessmentData.objectives.forEach((objective, objIndex) => {
         objective.questions.forEach((question, qIndex) => {
+            questionsById[question.id] = question;
             flatQuestions.push({
                 objectiveIndex: objIndex,
                 questionIndex: qIndex,
@@ -57,32 +161,34 @@ function showScreen(screenId) {
 function displayQuestion() {
     const current = flatQuestions[getCurrentGlobalIndex()];
     const { objective, question, globalIndex } = current;
+    const objectiveL = localizedObjective(objective);
+    const questionL = localizedQuestion(question);
 
     const progress = ((globalIndex + 1) / flatQuestions.length) * 100;
     document.getElementById('progress-fill').style.width = `${progress}%`;
-    document.getElementById('progress-text').textContent = `Question ${globalIndex + 1} of ${flatQuestions.length}`;
+    document.getElementById('progress-text').textContent = t('progressText', { current: globalIndex + 1, total: flatQuestions.length });
 
     document.getElementById('current-objective-code').textContent = objective.code;
-    document.getElementById('current-objective-name').textContent = objective.name;
+    document.getElementById('current-objective-name').textContent = objectiveL.name;
     document.getElementById('current-objective-weight').textContent = `${Math.round(objective.weight * 100)}%`;
 
-    document.getElementById('question-number').textContent = `${objective.code} · Criterion ${question.number}`;
-    document.getElementById('question-text').textContent = question.text;
+    document.getElementById('question-number').textContent = t('criterionLabel', { code: objective.code, number: question.number });
+    document.getElementById('question-text').textContent = questionL.text;
 
     // Contextual help (collapsed by default on every question)
     const helpEl = document.getElementById('question-help');
     const helpToggle = document.getElementById('help-toggle');
     helpEl.hidden = true;
     helpToggle.classList.remove('active');
-    if (question.help) {
-        helpEl.textContent = question.help;
+    if (questionL.help) {
+        helpEl.textContent = questionL.help;
         helpToggle.style.display = '';
     } else {
         helpEl.textContent = '';
         helpToggle.style.display = 'none';
     }
 
-    renderQuestionOptions(question, globalIndex);
+    renderQuestionOptions(questionL, globalIndex);
     updateNavigationButtons();
 }
 
@@ -183,7 +289,7 @@ function updateNavigationButtons() {
     document.getElementById('next-btn').disabled = answers[globalIndex] === undefined;
 
     const nextBtn = document.getElementById('next-btn');
-    nextBtn.textContent = (globalIndex === flatQuestions.length - 1) ? 'View Results' : 'Next';
+    nextBtn.textContent = (globalIndex === flatQuestions.length - 1) ? t('viewResults') : t('nextButton');
 }
 
 // Look up a SEAL level descriptor
@@ -222,22 +328,23 @@ function calculateResults() {
         });
 
         // Record which criteria sit at this objective's minimum SEAL (the binding constraints).
+        // Store ids (not text) so results can be re-rendered in any language.
         objective.questions.forEach((question, qIndex) => {
             const globalIndex = getGlobalIndexForQuestion(objIndex, qIndex);
             const answerIndex = answers[globalIndex];
             if (answerIndex !== undefined && question.answers[answerIndex].seal === objectiveSeal) {
                 limitingCriteria.push({
+                    id: question.id,
                     number: question.number,
-                    text: question.text,
-                    selected: question.answers[answerIndex].label,
+                    answerIndex: answerIndex,
                     seal: objectiveSeal
                 });
             }
         });
 
         objectiveResults[objective.id] = {
+            id: objective.id,
             code: objective.code,
-            name: objective.name,
             weight: objective.weight,
             score: objectiveScore,
             maxScore: objectiveMax,
@@ -268,12 +375,12 @@ function getGlobalIndexForQuestion(objIndex, qIndex) {
 // Display results
 function displayResults(sovScoreFraction, rawWeighted, overallSeal) {
     const percentage = Math.round(sovScoreFraction * 100);
-    const seal = getSealDescriptor(overallSeal);
+    const seal = localizedSeal(overallSeal);
 
     // Sovereignty Score
     document.getElementById('sov-score-value').textContent = `${percentage}%`;
     document.getElementById('sov-score-detail').textContent =
-        `Weighted sovereignty score · ${Math.round(rawWeighted * 1000)} / 1000`;
+        t('sovScoreDetail', { score: Math.round(rawWeighted * 1000) });
 
     // SEAL badge (weakest link)
     const sealBadge = document.getElementById('seal-badge');
@@ -291,16 +398,17 @@ function displayResults(sovScoreFraction, rawWeighted, overallSeal) {
 // Display objectives breakdown
 function displayObjectivesBreakdown() {
     const container = document.getElementById('objectives-breakdown');
-    container.innerHTML = '<h3>Breakdown by Objective</h3>';
+    container.innerHTML = `<h3>${t('breakdownTitle')}</h3>`;
 
     Object.values(objectiveResults).forEach(obj => {
-        const seal = getSealDescriptor(obj.seal);
+        const seal = localizedSeal(obj.seal);
+        const name = localizedObjectiveById(obj.id).name;
         const item = document.createElement('div');
         item.className = 'breakdown-item';
         item.innerHTML = `
             <div class="breakdown-label">
-                <strong>${obj.code}</strong> ${obj.name}
-                <span class="breakdown-weight">weight ${Math.round(obj.weight * 100)}%</span>
+                <strong>${obj.code}</strong> ${name}
+                <span class="breakdown-weight">${t('breakdownWeight', { weight: Math.round(obj.weight * 100) })}</span>
             </div>
             <div class="breakdown-right">
                 <span class="breakdown-seal seal-pill seal-${obj.seal}">${seal.code}</span>
@@ -317,23 +425,21 @@ function displayObjectivesBreakdown() {
 // Display recommendations — focus on the weakest-link criteria that cap the SEAL
 function displayRecommendations(overallSeal) {
     const container = document.getElementById('recommendations');
-    container.innerHTML = '<h3>Priorities for Improvement</h3>';
+    container.innerHTML = `<h3>${t('recommendationsTitle')}</h3>`;
 
     const maxLevel = Math.max(...assessmentData.sealLevels.map(s => s.level));
-    const sealName = getSealDescriptor(overallSeal).code;
+    const sealName = localizedSeal(overallSeal).code;
 
     if (overallSeal >= maxLevel) {
-        const top = getSealDescriptor(maxLevel);
+        const top = localizedSeal(maxLevel);
         const p = document.createElement('p');
         p.className = 'rec-intro';
-        p.innerHTML = `Outstanding — every criterion already reaches <strong>${top.code} (${top.name})</strong>, ` +
-            `the highest SEAL. The only remaining work is lifting any objective below 100% to raise the Sovereignty Score.`;
+        p.innerHTML = t('recTopIntro', { sealCode: top.code, sealName: top.name });
         container.appendChild(p);
     } else {
         const intro = document.createElement('p');
         intro.className = 'rec-intro';
-        intro.innerHTML = `Your overall SEAL is <strong>${sealName}</strong>, set by the lowest-scoring criteria below. ` +
-            `Because SEAL is a weakest-link measure, raising it requires improving <em>every</em> criterion currently at ${sealName}.`;
+        intro.innerHTML = t('recIntro', { sealCode: sealName });
         container.appendChild(intro);
 
         // Criteria across all objectives that sit at the overall (binding) SEAL.
@@ -344,10 +450,19 @@ function displayRecommendations(overallSeal) {
             });
         });
         binding.forEach(c => {
+            const q = questionsById[c.id];
+            const ql = q ? localizedQuestion(q) : null;
+            const text = ql ? ql.text : c.id;
+            const answer = ql && ql.answers[c.answerIndex] ? ql.answers[c.answerIndex].label : '';
             const div = document.createElement('div');
             div.className = 'recommendation-item';
-            div.innerHTML = `<strong>${c.code} · Criterion ${c.number}</strong> (currently ${getSealDescriptor(c.seal).code}): ` +
-                `${c.text} <em>— your answer: "${c.selected}".</em>`;
+            div.innerHTML = t('recBindingItem', {
+                code: c.code,
+                number: c.number,
+                sealCode: localizedSeal(c.seal).code,
+                text: text,
+                answer: answer
+            });
             container.appendChild(div);
         });
     }
@@ -359,12 +474,17 @@ function displayRecommendations(overallSeal) {
     if (weak.length) {
         const h = document.createElement('p');
         h.className = 'rec-intro';
-        h.textContent = 'Objectives dragging down the Sovereignty Score (below 75%):';
+        h.textContent = t('recWeakTitle');
         container.appendChild(h);
         weak.forEach(o => {
             const div = document.createElement('div');
             div.className = 'recommendation-item';
-            div.textContent = `${o.code} ${o.name}: ${o.percentage}% (weight ${Math.round(o.weight * 100)}%)`;
+            div.textContent = t('recWeakItem', {
+                code: o.code,
+                name: localizedObjectiveById(o.id).name,
+                percentage: o.percentage,
+                weight: Math.round(o.weight * 100)
+            });
             container.appendChild(div);
         });
     }
@@ -377,52 +497,54 @@ function downloadReport() {
     const sealName = document.querySelector('#seal-badge .seal-name')?.textContent || '';
     const timestamp = new Date().toISOString().replace(/:/g, '-').split('.')[0];
 
-    let report = `EU CLOUD SOVEREIGNTY FRAMEWORK ASSESSMENT
+    let report = `${t('reportTitle')}
 ==========================================
 
-Assessment Date: ${new Date().toLocaleString()}
-Assessment ID: cloud-sovereignty-assessment-${timestamp}
+${t('reportDateLabel')}: ${new Date().toLocaleString()}
+${t('reportIdLabel')}: cloud-sovereignty-assessment-${timestamp}
 
-Methodology: ${assessmentData.framework.name} ${assessmentData.framework.version}
+${t('reportMethodologyLabel')}: ${assessmentData.framework.name} ${assessmentData.framework.version}
              ${assessmentData.framework.methodology}
 
-RESULTS
+${t('reportResultsHeader')}
 -------
-Sovereignty Score : ${sovScore}
-SEAL (weakest link): ${sealCode} - ${sealName}
+${t('reportScoreLabel')} : ${sovScore}
+${t('reportSealLabel')}: ${sealCode} - ${sealName}
 
-The SEAL level is the LOWEST SEAL achieved on any single criterion. The
-Sovereignty Score is the weighted average of the eight objective scores.
+${t('reportSealNote')}
 
-SCORE BREAKDOWN BY OBJECTIVE
+${t('reportBreakdownHeader')}
 ----------------------------
 `;
 
     Object.values(objectiveResults).forEach(obj => {
-        report += `${obj.code} ${obj.name} (weight ${Math.round(obj.weight * 100)}%): ` +
-            `${obj.percentage}%  | objective SEAL: ${getSealDescriptor(obj.seal).code}\n`;
+        const name = localizedObjectiveById(obj.id).name;
+        report += `${obj.code} ${name} (${t('reportWeightLabel')} ${Math.round(obj.weight * 100)}%): ` +
+            `${obj.percentage}%  | ${t('reportObjectiveSealLabel')}: ${localizedSeal(obj.seal).code}\n`;
     });
 
     report += `
-BINDING CRITERIA (currently capping the overall SEAL)
+${t('reportBindingHeader')}
 -----------------------------------------------------
 `;
     const overallSeal = Math.min(...Object.values(objectiveResults).map(o => o.seal));
     Object.values(objectiveResults).forEach(obj => {
         obj.limitingCriteria.forEach(c => {
             if (c.seal === overallSeal) {
-                report += `• ${obj.code} · Criterion ${c.number} (${getSealDescriptor(c.seal).code}): ${c.text}\n    Your answer: "${c.selected}"\n`;
+                const q = questionsById[c.id];
+                const ql = q ? localizedQuestion(q) : null;
+                const text = ql ? ql.text : c.id;
+                const answer = ql && ql.answers[c.answerIndex] ? ql.answers[c.answerIndex].label : '';
+                report += `\u2022 ${obj.code} \u00b7 ${t('reportCriterionWord')} ${c.number} (${localizedSeal(c.seal).code}): ${text}\n    ${t('reportYourAnswerLabel')}: "${answer}"\n`;
             }
         });
     });
 
     report += `
-Reference: ${assessmentData.framework.name} ${assessmentData.framework.version};
+${t('reportReferenceLabel')}: ${assessmentData.framework.name} ${assessmentData.framework.version};
 Implementation Guidance and Sovereignty Assessment Calculator (1 June 2026).
 
-This tool is provided for informational and self-assessment purposes only.
-It does not constitute legal advice or official EU certification. Point values
-are reference figures that contracting authorities may adapt.
+${t('reportDisclaimer')}
 `;
 
     const blob = new Blob([report], { type: 'text/plain' });
@@ -448,4 +570,7 @@ function restartAssessment() {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
+    let saved = null;
+    try { saved = localStorage.getItem(LANGUAGE_STORAGE_KEY); } catch (e) { /* storage unavailable */ }
+    setLanguage(saved && translations[saved] ? saved : DEFAULT_LANGUAGE);
 });
